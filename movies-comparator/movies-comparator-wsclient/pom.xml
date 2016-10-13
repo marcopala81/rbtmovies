@@ -14,4 +14,17 @@
   
   <name>${project.name} Webservice Client Module</name>
   
+  <dependencies>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+	  <artifactId>jersey-client</artifactId>
+	  <version>1.19.2</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.json</groupId>
+	    <artifactId>json</artifactId>
+	    <version>20160810</version>
+	</dependency>	
+  </dependencies>
+  
 </project>
