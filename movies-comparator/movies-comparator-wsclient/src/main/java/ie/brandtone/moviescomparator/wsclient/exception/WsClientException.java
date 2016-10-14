@@ -1,7 +1,8 @@
 package ie.brandtone.moviescomparator.wsclient.exception;
 
-import static ie.brandtone.moviescomparator.utils.Constants.HTTP_ERROR_MSG;
-import static ie.brandtone.moviescomparator.utils.Constants.WS_CLIENT_ERROR_MSG;
+import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
+import static ie.brandtone.moviescomparator.utils.Constants.WS_CLIENT_ERROR_MSG_KEY;
+import static ie.brandtone.moviescomparator.utils.Constants.WS_CLIENT_HTTP_ERROR_MSG_KEY;
 
 /**
  * Used for reporting an exception while initializing a webservice client.
@@ -22,7 +23,7 @@ public class WsClientException extends Exception
 	 */
 	public WsClientException(Throwable cause)
 	{
-		super(WS_CLIENT_ERROR_MSG, cause);
+		super(getMessageFromBundle(WS_CLIENT_ERROR_MSG_KEY), cause);
 	}
 	
 	/**
@@ -32,6 +33,6 @@ public class WsClientException extends Exception
 	 */
 	public WsClientException(int httpErrorCode)
 	{
-		super(WS_CLIENT_ERROR_MSG + " " + String.format(HTTP_ERROR_MSG, httpErrorCode));
+		super(getMessageFromBundle(WS_CLIENT_HTTP_ERROR_MSG_KEY, String.valueOf(httpErrorCode)));
 	}	
 }

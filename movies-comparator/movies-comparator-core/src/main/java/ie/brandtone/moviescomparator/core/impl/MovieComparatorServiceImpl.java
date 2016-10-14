@@ -4,6 +4,7 @@ import ie.brandtone.moviescomparator.dao.Movie;
 import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
 import ie.brandtone.moviescomparator.wsclient.MovieRetrieverService;
 import ie.brandtone.moviescomparator.wsclient.exception.MovieNotFoundException;
+import ie.brandtone.moviescomparator.wsclient.exception.WsClientConfigException;
 import ie.brandtone.moviescomparator.wsclient.exception.WsClientException;
 import ie.brandtone.moviescomparator.wsclient.impl.OMDbApiRestClient;
 import ie.brandtone.moviescomparator.core.MovieComparatorService;
@@ -42,7 +43,7 @@ public class MovieComparatorServiceImpl implements MovieComparatorService
 			movie1 = mrs.getMovieByTitle(title1);
 			movie2 = mrs.getMovieByTitle(title2);
 		}
-		catch (MovieNotFoundException | BadMovieFormatException e)
+		catch (MovieNotFoundException | BadMovieFormatException | WsClientConfigException e)
 		{
 			throw new MovieComparatorException(e);
 		}

@@ -1,8 +1,8 @@
 package ie.brandtone.moviescomparator.wsclient.exception;
 
-import static ie.brandtone.moviescomparator.utils.Constants.SPACE;
-import static ie.brandtone.moviescomparator.utils.Constants.NESTED_CAUSE_MSG;
-import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_NOT_FOUND_ERROR_MSG;
+import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
+import static ie.brandtone.moviescomparator.utils.Constants.TO_STRING_NESTED_CAUSE_KEY;
+import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_NOT_FOUND_ERROR_MSG_KEY;
 
 /**
  * Used for reporting an exception while retrieving a movie.
@@ -23,7 +23,7 @@ public class MovieNotFoundException extends Exception
 	 */
 	public MovieNotFoundException(String title)
 	{
-		super(String.format(MOVIE_NOT_FOUND_ERROR_MSG, title));
+		super(getMessageFromBundle(MOVIE_NOT_FOUND_ERROR_MSG_KEY, title));
 	}
 	
 	/**
@@ -46,12 +46,16 @@ public class MovieNotFoundException extends Exception
 	@Override
 	public String toString()
 	{
-		StringBuilder traceMsg = new StringBuilder(super.toString());
+		StringBuilder traceMsg = new StringBuilder();
 		Throwable nestedCause = this.getCause();
 		
 		if (nestedCause != null)
 		{
-			traceMsg.append(SPACE).append(String.format(NESTED_CAUSE_MSG, nestedCause.toString()));
+			traceMsg.append(getMessageFromBundle(TO_STRING_NESTED_CAUSE_KEY, super.toString(), nestedCause.toString()));
+		}
+		else
+		{
+			traceMsg.append(super.toString());
 		}
 		
 		return traceMsg.toString();

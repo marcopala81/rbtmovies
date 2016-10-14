@@ -1,12 +1,10 @@
 package ie.brandtone.moviescomparator.wsclient.test;
 
-import static ie.brandtone.moviescomparator.utils.Constants.MATCHING_EXCEPTION_TYPE_ERROR_MSG;
-import static ie.brandtone.moviescomparator.utils.Constants.MATCHING_VALUES_ERROR_MSG;
-import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_TITLE;
+import static ie.brandtone.moviescomparator.utils.Commons.getMatchingValuesErrorMsg;
+import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_TITLE_LITERAL_KEY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -31,61 +29,53 @@ public class MovieRetrieverServiceTest
 	
 	/**
 	 * Test the {@link MovieRetrieverService#getMovieByTitle(String)} method with a matching title.
+	 * 
+	 * @throws Exception in case of any failure ({@link WsClientException} | {@link BadMovieFormatException} | {@link MovieNotFoundException})
 	 */
 	@Test
-	public void getMovieByTitleTest001()
+	public void getMovieByTitleTest001() throws Exception
 	{
 		Movie movie = getMovieByTitleCommonTest(TEST_FOUND_TITLE);
-		assertEquals(String.format(MATCHING_VALUES_ERROR_MSG, MOVIE_TITLE), TEST_FOUND_TITLE, movie.getTitle());
+		assertEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), TEST_FOUND_TITLE, movie.getTitle());
 	}
 	
 	/**
 	 * Test the {@link MovieRetrieverService#getMovieByTitle(String)} method checking an unexpected title.
+	 * 
+	 * @throws Exception in case of any failure ({@link WsClientException} | {@link BadMovieFormatException} | {@link MovieNotFoundException})
 	 */
 	@Test
-	public void getMovieByTitleTest002()
+	public void getMovieByTitleTest002() throws Exception
 	{
 		Movie movie = getMovieByTitleCommonTest(TEST_UNMATCHING_TITLE);
-		assertNotEquals(String.format(MATCHING_VALUES_ERROR_MSG, MOVIE_TITLE), TEST_UNMATCHING_TITLE, movie.getTitle());
+		assertNotEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), TEST_UNMATCHING_TITLE, movie.getTitle());
 	}
 	
 	/**
 	 * Test the {@link MovieRetrieverService#getMovieByTitle(String)} method checking a not found title.
+	 * 
+	 * @throws Exception in case of any failure ({@link WsClientException} | {@link BadMovieFormatException} | {@link MovieNotFoundException})
 	 */
-	@Test
-	public void getMovieByTitleTest003()
+	@Test(expected = MovieNotFoundException.class)
+	public void getMovieByTitleTest003() throws Exception
 	{
-		try
-		{
-			MovieRetrieverService mrs = OMDbApiRestClient.getInstance();
-			mrs.getMovieByTitle(TEST_NOT_FOUND_TITLE);
-		}
-		catch (Exception e)
-		{
-			assertEquals(MATCHING_EXCEPTION_TYPE_ERROR_MSG, MovieNotFoundException.class.getSimpleName(), e.getClass().getSimpleName());
-		}		
+		MovieRetrieverService mrs = OMDbApiRestClient.getInstance();
+		mrs.getMovieByTitle(TEST_NOT_FOUND_TITLE);
 	}
 
 	/**
 	 * Utility method common to most of these test cases (OMDbApi client request and basic not-null assertion).
 	 * 
 	 * @param testTitle The test title to retrieve
+	 * 
 	 * @return The movie object matching the title
+	 * @throws Exception in case of any failure ({@link WsClientException} | {@link BadMovieFormatException} | {@link MovieNotFoundException})
 	 */
-	private Movie getMovieByTitleCommonTest(String testTitle)
+	private Movie getMovieByTitleCommonTest(String testTitle) throws Exception
 	{
-		Movie movie = null;
-		
-		try
-		{
-			MovieRetrieverService mrs = OMDbApiRestClient.getInstance();
-			movie = mrs.getMovieByTitle(testTitle);
-		}
-		catch (WsClientException | MovieNotFoundException | BadMovieFormatException e)
-		{
-			fail(e.toString());
-		}
-		
+		Movie movie = null;	
+		MovieRetrieverService mrs = OMDbApiRestClient.getInstance();
+		movie = mrs.getMovieByTitle(testTitle);
 		assertNotNull(movie);
 		
 		return movie;

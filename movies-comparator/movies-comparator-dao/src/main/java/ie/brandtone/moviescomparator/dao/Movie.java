@@ -1,14 +1,8 @@
 package ie.brandtone.moviescomparator.dao;
 
+import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
 import static ie.brandtone.moviescomparator.utils.Commons.literalOrNa;
-import static ie.brandtone.moviescomparator.utils.Constants.OMDB_ID_FIELD;
-import static ie.brandtone.moviescomparator.utils.Constants.OMDB_TITLE_FIELD;
-import static ie.brandtone.moviescomparator.utils.Constants.OMDB_RATING_FIELD;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
+import static ie.brandtone.moviescomparator.utils.Constants.TO_STRING_MOVIE_KEY;
 
 /**
  * Describes a movie with its relevant properties.
@@ -44,32 +38,6 @@ public class Movie
 		this.id = literalOrNa(id);
 		this.title = literalOrNa(title);
 		this.rating = rating;
-	}
-
-	/**
-	 * Public constructor to create a {@link Movie} object starting from its JSON object representation.
-	 * <br>
-	 * TODO Move this method to a MovieFactory class<br>
-	 * TODO Remember to doublecheck the movie title (the OMDb API will return movies also when the title partially matches one)<br>
-	 * 
-	 * @param jsonMovie The JSON object representation of the movie to create
-	 * 
-	 * @throws BadMovieFormatException in case of a bad JSON input format or conversion issues. 
-	 */
-	public Movie(JSONObject jsonMovie) throws BadMovieFormatException
-	{
-		try
-		{
-			// Get relevant movie's properties
-			this.id = jsonMovie.getString(OMDB_ID_FIELD);
-			this.title = jsonMovie.getString(OMDB_TITLE_FIELD);
-			this.rating = Float.parseFloat(jsonMovie.getString(OMDB_RATING_FIELD));
-		}
-		catch (JSONException | NumberFormatException e)
-		{
-			// In case of any issue on getting movie's properties
-			throw new BadMovieFormatException(e);
-		}
 	}
 
 	/**
@@ -131,4 +99,18 @@ public class Movie
 	{
 		this.rating = rating;
 	}
+	
+	/**
+	 * Overrides the superclass method to correctly format movie's infos for logging.
+	 * 
+	 * @return The {@link Movie} string representation
+	 */
+	@Override
+	public String toString()
+	{		
+		return getMessageFromBundle(TO_STRING_MOVIE_KEY,
+									this.getId(),
+									this.getTitle(),
+									String.valueOf(this.getRating()));
+	}	
 }

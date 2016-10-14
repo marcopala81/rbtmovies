@@ -1,9 +1,10 @@
 package ie.brandtone.moviescomparator.utils;
 
-import static ie.brandtone.moviescomparator.utils.Constants.MESSAGES_BUNDLE_NAME;
 import static ie.brandtone.moviescomparator.utils.Constants.ENTERING_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.Constants.EXITING_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.Constants.N_A;
+import static ie.brandtone.moviescomparator.utils.Constants.LEAVING_MSG_KEY;
+import static ie.brandtone.moviescomparator.utils.Constants.MATCHING_VALUES_ERROR_MSG_KEY;
+import static ie.brandtone.moviescomparator.utils.Constants.MESSAGES_BUNDLE_NAME;
 
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -21,6 +22,14 @@ public final class Commons
 	 * Initialize the {@link ResourceBundle} for messaging purposes.
 	 */
 	private final static ResourceBundle messagesBundle = ResourceBundle.getBundle(MESSAGES_BUNDLE_NAME, new Locale("en","IE"));
+	
+	//
+	// COMMON LITERALS
+	//	
+	/**
+	 * The <code>N/A</code> literal (in case of not assigned {@link String} values).
+	 */
+	public static final String N_A = "N/A";
 	
 	/**
 	 * Get a formatted message from the messages bundle (matching the given key).
@@ -65,6 +74,34 @@ public final class Commons
 	public static String getExitingMessage(String methodName)
 	{
 		return getMessageFromBundle(EXITING_MSG_KEY, methodName);
+	}
+	
+	/**
+	 * Get the leaving message formatted with method's name.
+	 * 
+	 * @param methodName The method's name
+	 * 
+	 * @return The formatted leaving message with method's name
+	 * 
+	 * @since v1.0.0
+	 */
+	public static String getLeavingMessage(String methodName)
+	{
+		return getMessageFromBundle(LEAVING_MSG_KEY, methodName);
+	}
+
+	/**
+	 * Get the matching values error message key formatted with field literal for testing purposes.
+	 * 
+	 * @param literalKey The key to retrieve the field literal
+	 * 
+	 * @return The formatted error message with field literal
+	 * 
+	 * @since v1.0.0
+	 */
+	public static String getMatchingValuesErrorMsg(String literalKey)
+	{
+		return getMessageFromBundle(MATCHING_VALUES_ERROR_MSG_KEY, getMessageFromBundle(literalKey));
 	}
 	
 	/**

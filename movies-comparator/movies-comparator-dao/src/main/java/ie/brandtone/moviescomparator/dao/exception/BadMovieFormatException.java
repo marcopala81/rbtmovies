@@ -1,6 +1,7 @@
 package ie.brandtone.moviescomparator.dao.exception;
 
-import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_FORMAT_ERROR_MSG;
+import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
+import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_FORMAT_ERROR_MSG_KEY;
 
 /**
  * Used for reporting an exception while creating a movie.
@@ -21,6 +22,6 @@ public class BadMovieFormatException extends Exception
 	 */
 	public BadMovieFormatException(Throwable cause)
 	{
-		super(MOVIE_FORMAT_ERROR_MSG, cause);
+		super(getMessageFromBundle(MOVIE_FORMAT_ERROR_MSG_KEY), cause);
 	}	
 }

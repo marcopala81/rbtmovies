@@ -19,7 +19,7 @@ public interface MovieComparatorService
 	 * 
 	 * @return The best movie based on its rating or (<code>null</code> if the movies have the same rating)
 	 * 
-	 * @throws MovieComparatorException in case of any issue during the movie comparison.
+	 * @throws MovieComparatorException in case of any issue during the movie comparison
 	 * 
 	 * @since v1.0.0
 	 */

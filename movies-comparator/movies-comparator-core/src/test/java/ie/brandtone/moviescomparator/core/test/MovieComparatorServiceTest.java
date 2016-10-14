@@ -1,10 +1,9 @@
 package ie.brandtone.moviescomparator.core.test;
 
-import static ie.brandtone.moviescomparator.utils.Constants.MATCHING_VALUES_ERROR_MSG;
-import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_TITLE;
+import static ie.brandtone.moviescomparator.utils.Commons.getMatchingValuesErrorMsg;
+import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_TITLE_LITERAL_KEY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -26,29 +25,35 @@ public class MovieComparatorServiceTest
 	
 	/**
 	 * Test the {@link MovieComparatorService#compareMoviesByRating(String, String)} method with two known titles (the first one is better).
+	 * 
+	 * @throws MovieComparatorException in case of any failure
 	 */
 	@Test
-	public void compareMoviesByRatingTest001()
+	public void compareMoviesByRatingTest001() throws MovieComparatorException
 	{
 		Movie bestOne = compareMoviesByRatingCommonTest(TEST_GOOD_TITLE, TEST_POOR_TITLE);
-		assertEquals(String.format(MATCHING_VALUES_ERROR_MSG, MOVIE_TITLE), TEST_GOOD_TITLE, bestOne.getTitle());
+		assertEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), TEST_GOOD_TITLE, bestOne.getTitle());
 	}
 	
 	/**
 	 * Test the {@link MovieComparatorService#compareMoviesByRating(String, String)} method with two known titles (the second one is better).
+	 * 
+	 * @throws MovieComparatorException in case of any failure
 	 */
 	@Test
-	public void getMovieByTitleTest002()
+	public void getMovieByTitleTest002() throws MovieComparatorException
 	{
 		Movie bestOne = compareMoviesByRatingCommonTest(TEST_POOR_TITLE, TEST_GOOD_TITLE);
-		assertEquals(String.format(MATCHING_VALUES_ERROR_MSG, MOVIE_TITLE), TEST_GOOD_TITLE, bestOne.getTitle());
+		assertEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), TEST_GOOD_TITLE, bestOne.getTitle());
 	}
 	
 	/**
 	 * Test the {@link MovieComparatorService#compareMoviesByRating(String, String)} method checking the same title (<code>null</code> expected).
+	 * 
+	 * @throws MovieComparatorException in case of any failure
 	 */
 	@Test
-	public void getMovieByTitleTest003()
+	public void getMovieByTitleTest003() throws MovieComparatorException
 	{
 		Movie sameOne = compareMoviesByRatingCommonTest(TEST_GOOD_TITLE, TEST_GOOD_TITLE);
 		assertNull(sameOne);
@@ -61,20 +66,13 @@ public class MovieComparatorServiceTest
 	 * @param testTitle2 The second test title to compare
 	 * 
 	 * @return The best movie object (or <code>null</code> if they have the same rating)
+	 * @throws MovieComparatorException in case of any failure
 	 */
-	private Movie compareMoviesByRatingCommonTest(String testTitle1, String testTitle2)
+	private Movie compareMoviesByRatingCommonTest(String testTitle1, String testTitle2) throws MovieComparatorException
 	{
-		Movie bestOne = null;
-		
-		try
-		{
-			MovieComparatorService mcs = MovieComparatorServiceImpl.getInstance();
-			bestOne = mcs.compareMoviesByRating(testTitle1, testTitle2);
-		}
-		catch (MovieComparatorException mce)
-		{
-			fail(mce.toString());
-		}
+		Movie bestOne = null;		
+		MovieComparatorService mcs = MovieComparatorServiceImpl.getInstance();
+		bestOne = mcs.compareMoviesByRating(testTitle1, testTitle2);
 		
 		return bestOne;
 	}	

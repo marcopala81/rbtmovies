@@ -8,7 +8,7 @@ package ie.brandtone.moviescomparator.utils;
 public final class Constants
 {
 	//
-	// LITERALS
+	// INFO MESSAGE KEYS
 	//
 	/**
 	 * The messages bundle filename (without extension). 
@@ -26,6 +26,11 @@ public final class Constants
 	public static final String EXITING_MSG_KEY = "logging.info.exitingMethod";
 
 	/**
+	 * The key to retrieve the method's leaving message (in case of execution interrupted) for logging purposes.
+	 */
+	public static final String LEAVING_MSG_KEY = "logging.info.leavingMethod";
+	
+	/**
 	 * The key to retrieve the requested movie title message.
 	 */
 	public static final String REQUESTED_TITLE_MSG_KEY = "logging.info.requestedTitle";
@@ -41,6 +46,24 @@ public final class Constants
 	public static final String OMDB_API_RESPONSE_STATUS_MSG_KEY = "logging.info.responseFromOMDb";	
 	
 	/**
+	 * The key to retrieve the movie found message.
+	 */
+	public static final String MOVIE_FOUND_MSG_KEY = "logging.info.movieFound";
+
+	/**
+	 * The key to retrieve the OMDb to Movie conversion message.
+	 */
+	public static final String OMDB_JSON_TO_MOVIE_CONVERSION_MSG_KEY = "logging.info.omdbJsonToMovieConversion";
+
+	/**
+	 * The key to retrieve the OMDb to Movie converted succesfully message.
+	 */
+	public static final String OMDB_JSON_TO_MOVIE_CONVERTED_MSG_KEY = "logging.info.omdbJsonToMovieConversionOk";
+	
+	//
+	// ERROR MESSAGE KEYS
+	//	
+	/**
 	 * The key to retrieve the response status error message.
 	 */
 	public static final String RESPONSE_STATUS_ERROR_MSG_KEY = "logging.error.responseStatusKO";	
@@ -51,96 +74,58 @@ public final class Constants
 	public static final String OMDB_RESPONSE_FIELD_ERROR_MSG_KEY = "logging.error.responseFieldFalse";
 	
 	/**
-	 * The <code>N/A</code> literal (in case of not assigned {@link String} values).
+	 * The key to retrieve the file-not-found error message.
 	 */
-	public static final String N_A = "N/A";
-
-	/**
-	 * The space (<code>" "</code>) literal.
-	 */
-	public static final String SPACE = " ";
+	public static final String FILE_NOT_FOUND_ERROR_MSG_KEY = "logging.error.fileNotFound";
 	
 	/**
-	 * Generic literal for including a nested exception trace (fill '%s' parameter).
+	 * The key to retrieve the generic error message for webservice client configuration issues.
 	 */
-	public static final String NESTED_CAUSE_MSG = "Nested exception >>> %s";
+	public static final String WSCLIENT_CONFIG_ERROR_MSG_KEY = "logging.error.wsClientConfig";
+	
+	/**
+	 * The key to retrieve the generic error message for the webservice client operations.
+	 */
+	public static final String WS_CLIENT_ERROR_MSG_KEY = "logging.error.wsClient";
+
+	/**
+	 * The key to retrieve the HTTP error message for the webservice client responses.
+	 */
+	public static final String WS_CLIENT_HTTP_ERROR_MSG_KEY = "logging.error.wsClientHttpCode";
+	
+	/**
+	 * The key to retrieve the generic error message for the movie format issues.
+	 */
+	public static final String MOVIE_FORMAT_ERROR_MSG_KEY = "logging.error.badMovieFormat";
+	
+	/**
+	 * The key to retrieve the generic error message in case of movie not found.
+	 */
+	public static final String MOVIE_NOT_FOUND_ERROR_MSG_KEY = "logging.error.movieNotFound";
 	
 	//
-	// OMDb API
+	// TO_STRING FORMATTING
 	//
 	/**
-	 * The OMDb API URL.
+	 * The key to retrieve the movie's <code>toString()</code> formatting message.
 	 */
-	public static final String OMDB_API_URL = "http://www.omdbapi.com/";
+	public static final String TO_STRING_MOVIE_KEY = "toString.Movie";
 	
 	/**
-	 * The key to put the title parameter on a OMDb API request.
+	 * The key to retrieve the nested cause message (for exception's <code>toString()</code> formatting).
 	 */
-	public static final String OMDB_TITLE_PARAM = "t";
-
-	/**
-	 * The value of the OMDb API <code>Response</code> field in case of movie found.
-	 */	
-	public static final String OMDB_RESPONSE_FOUND = "True";
-	
-	/**
-	 * The key to retrieve the OMBd API ID field.
-	 */
-	public static final String OMDB_ID_FIELD =  "imdbID";
-
-	/**
-	 * The key to retrieve the OMBd API title field.
-	 */
-	public static final String OMDB_TITLE_FIELD = "Title";
-
-	/**
-	 * The key to retrieve the OMBd API rating field.
-	 */	
-	public static final String OMDB_RATING_FIELD = "imdbRating";
-
-	/**
-	 * The key to retrieve the OMBd API response field (for testing purposes).
-	 */	
-	public static final String OMDB_RESPONSE_FIELD = "Response";
+	public static final String TO_STRING_NESTED_CAUSE_KEY = "toString.nestedCause";
 		
 	//
-	// ERROR MESSAGES
+	// TESTING
 	//
 	/**
-	 * Generic error message for the webservice client operations.
+	 * The key to retrieve the matching values error message for testing purposes.
 	 */
-	public static final String WS_CLIENT_ERROR_MSG = "An error occurred while processing the webservice client.";
-
-	/**
-	 * Optional error message for the webservice client response ('%s' will be filled with the proper HTTP return code).
-	 */
-	public static final String HTTP_ERROR_MSG = "See HTTP error code %s.";
+	public static final String MATCHING_VALUES_ERROR_MSG_KEY = "testing.error.matchingValues";
 	
 	/**
-	 * Generic error message for the movie format issues.
+	 * The key to retrieve the movie title literal for testing purpose.
 	 */
-	public static final String MOVIE_FORMAT_ERROR_MSG = "Unexpected bad movie format.";
-	
-	/**
-	 * Generic error message in case of movie not found ('%s' will be filled with the requested movie title).
-	 */
-	public static final String MOVIE_NOT_FOUND_ERROR_MSG = "The requested movie ('%s') cannot be found.";
-	
-	//
-	// TEST LITERALS
-	//
-	/**
-	 * Generic error message for testing matching values ('%s' will be filled with the tested variable).
-	 */	
-	public static final String MATCHING_VALUES_ERROR_MSG = "Bad value on %s >>>";
-
-	/**
-	 * Generic error message for testing matching exception types ('%s' will be filled with the tested variable).
-	 */	
-	public static final String MATCHING_EXCEPTION_TYPE_ERROR_MSG = "Unexpected exception type >>>";
-		
-	/**
-	 * The movie title literal for testing purpose.
-	 */
-	public static final String MOVIE_TITLE = "movie title";	
+	public static final String MOVIE_TITLE_LITERAL_KEY = "testing.literals.movieTitle";	
 }
