@@ -1,12 +1,10 @@
-package ie.brandtone.moviescomparator.wsclient;
+package ie.brandtone.moviescomparator.wsclient.exception;
 
-import static ie.brandtone.moviescomparator.wsclient.Constants.WS_CLIENT_ERROR_MSG;
-import static ie.brandtone.moviescomparator.wsclient.Constants.HTTP_ERROR_MSG;
+import static ie.brandtone.moviescomparator.utils.Constants.HTTP_ERROR_MSG;
+import static ie.brandtone.moviescomparator.utils.Constants.WS_CLIENT_ERROR_MSG;
 
 /**
  * Used for reporting an exception while initializing a webservice client.
- * <br>
- * TODO Move to a proper exception package.
  * 
  * @author Marco Pala
  */

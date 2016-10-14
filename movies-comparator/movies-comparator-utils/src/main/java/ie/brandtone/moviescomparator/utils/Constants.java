@@ -1,9 +1,7 @@
-package ie.brandtone.moviescomparator.wsclient;
+package ie.brandtone.moviescomparator.utils;
 
 /**
- * This class holds all the relevant literals/constants of the project.
- * <br>
- * TODO: move to the proper module/package...
+ * This class holds all the relevant literals and constants of the project.
  * 
  * @author Marco Pala
  */
@@ -12,6 +10,46 @@ public final class Constants
 	//
 	// LITERALS
 	//
+	/**
+	 * The messages bundle filename (without extension). 
+	 */
+	public static final String MESSAGES_BUNDLE_NAME = "messagesBundle";
+
+	/**
+	 * The key to retrieve the method's entering message for logging purposes.
+	 */
+	public static final String ENTERING_MSG_KEY = "logging.info.enteringMethod";
+
+	/**
+	 * The key to retrieve the method's exiting message for logging purposes.
+	 */
+	public static final String EXITING_MSG_KEY = "logging.info.exitingMethod";
+
+	/**
+	 * The key to retrieve the requested movie title message.
+	 */
+	public static final String REQUESTED_TITLE_MSG_KEY = "logging.info.requestedTitle";
+
+	/**
+	 * The key to retrieve the GET request message for the OMDb API webservice.
+	 */
+	public static final String OMDB_API_GET_REQUEST_MSG_KEY = "logging.info.sendingGetRequestToOMDb";
+	
+	/**
+	 * The key to retrieve the response status message from the OMDb API webservice.
+	 */
+	public static final String OMDB_API_RESPONSE_STATUS_MSG_KEY = "logging.info.responseFromOMDb";	
+	
+	/**
+	 * The key to retrieve the response status error message.
+	 */
+	public static final String RESPONSE_STATUS_ERROR_MSG_KEY = "logging.error.responseStatusKO";	
+
+	/**
+	 * The key to retrieve the response field error message.
+	 */
+	public static final String OMDB_RESPONSE_FIELD_ERROR_MSG_KEY = "logging.error.responseFieldFalse";
+	
 	/**
 	 * The <code>N/A</code> literal (in case of not assigned {@link String} values).
 	 */

@@ -1,22 +1,21 @@
 package ie.brandtone.moviescomparator.wsclient.test;
 
+import static ie.brandtone.moviescomparator.utils.Constants.MATCHING_EXCEPTION_TYPE_ERROR_MSG;
+import static ie.brandtone.moviescomparator.utils.Constants.MATCHING_VALUES_ERROR_MSG;
+import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_TITLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import static ie.brandtone.moviescomparator.wsclient.Constants.MATCHING_VALUES_ERROR_MSG;
-import static ie.brandtone.moviescomparator.wsclient.Constants.MATCHING_EXCEPTION_TYPE_ERROR_MSG;
-import static ie.brandtone.moviescomparator.wsclient.Constants.MOVIE_TITLE;
-
 import org.junit.Test;
 
-import ie.brandtone.moviescomparator.wsclient.BadMovieFormatException;
-import ie.brandtone.moviescomparator.wsclient.Movie;
-import ie.brandtone.moviescomparator.wsclient.MovieNotFoundException;
+import ie.brandtone.moviescomparator.dao.Movie;
+import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
+import ie.brandtone.moviescomparator.wsclient.exception.MovieNotFoundException;
 import ie.brandtone.moviescomparator.wsclient.MovieRetrieverService;
-import ie.brandtone.moviescomparator.wsclient.OMDbApiRestClient;
-import ie.brandtone.moviescomparator.wsclient.WsClientException;
+import ie.brandtone.moviescomparator.wsclient.exception.WsClientException;
+import ie.brandtone.moviescomparator.wsclient.impl.OMDbApiRestClient;
 
 /**
  * Class test for the {@link MovieRetrieverService} interface.
@@ -25,6 +24,7 @@ import ie.brandtone.moviescomparator.wsclient.WsClientException;
  */
 public class MovieRetrieverServiceTest
 {
+	// TODO Move to Constants
 	private static final String TEST_FOUND_TITLE = "Titanic";
 	private static final String TEST_UNMATCHING_TITLE = "Tit";
 	private static final String TEST_NOT_FOUND_TITLE = "Marcomarcomarco";
@@ -81,7 +81,7 @@ public class MovieRetrieverServiceTest
 			MovieRetrieverService mrs = OMDbApiRestClient.getInstance();
 			movie = mrs.getMovieByTitle(testTitle);
 		}
-		catch (WsClientException|MovieNotFoundException|BadMovieFormatException e)
+		catch (WsClientException | MovieNotFoundException | BadMovieFormatException e)
 		{
 			fail(e.toString());
 		}

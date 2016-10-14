@@ -8,18 +8,10 @@
     <artifactId>movies-comparator</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  
-  <artifactId>movies-comparator-dao</artifactId>
+
+  <artifactId>movies-comparator-utils</artifactId>
   <packaging>jar</packaging>
   
-  <name>${project.name} DAO Module</name>
-  
-  <dependencies>
-    <dependency>
-      <groupId>ie.brandtone</groupId>
-      <artifactId>movies-comparator-utils</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
+  <name>${project.name} Utils Module</name>
     
 </project>

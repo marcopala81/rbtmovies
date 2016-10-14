@@ -1,13 +1,11 @@
-package ie.brandtone.moviescomparator.wsclient;
+package ie.brandtone.moviescomparator.wsclient.exception;
 
-import static ie.brandtone.moviescomparator.wsclient.Constants.SPACE;
-import static ie.brandtone.moviescomparator.wsclient.Constants.NESTED_CAUSE_MSG;
-import static ie.brandtone.moviescomparator.wsclient.Constants.MOVIE_NOT_FOUND_ERROR_MSG;
+import static ie.brandtone.moviescomparator.utils.Constants.SPACE;
+import static ie.brandtone.moviescomparator.utils.Constants.NESTED_CAUSE_MSG;
+import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_NOT_FOUND_ERROR_MSG;
 
 /**
  * Used for reporting an exception while retrieving a movie.
- * <br>
- * TODO Move to a proper exception package.
  * 
  * @author Marco Pala
  */

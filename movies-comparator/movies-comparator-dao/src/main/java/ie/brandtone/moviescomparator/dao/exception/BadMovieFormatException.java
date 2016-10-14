@@ -1,11 +1,9 @@
-package ie.brandtone.moviescomparator.wsclient;
+package ie.brandtone.moviescomparator.dao.exception;
 
-import static ie.brandtone.moviescomparator.wsclient.Constants.MOVIE_FORMAT_ERROR_MSG;
+import static ie.brandtone.moviescomparator.utils.Constants.MOVIE_FORMAT_ERROR_MSG;
 
 /**
  * Used for reporting an exception while creating a movie.
- * <br>
- * TODO Move to a proper exception package.
  * 
  * @author Marco Pala
  */

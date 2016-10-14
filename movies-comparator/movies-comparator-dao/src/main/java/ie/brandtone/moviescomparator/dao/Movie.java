@@ -1,17 +1,17 @@
-package ie.brandtone.moviescomparator.wsclient;
+package ie.brandtone.moviescomparator.dao;
 
-import static ie.brandtone.moviescomparator.wsclient.Commons.literalOrNa;
-import static ie.brandtone.moviescomparator.wsclient.Constants.OMDB_ID_FIELD;
-import static ie.brandtone.moviescomparator.wsclient.Constants.OMDB_TITLE_FIELD;
-import static ie.brandtone.moviescomparator.wsclient.Constants.OMDB_RATING_FIELD;
+import static ie.brandtone.moviescomparator.utils.Commons.literalOrNa;
+import static ie.brandtone.moviescomparator.utils.Constants.OMDB_ID_FIELD;
+import static ie.brandtone.moviescomparator.utils.Constants.OMDB_TITLE_FIELD;
+import static ie.brandtone.moviescomparator.utils.Constants.OMDB_RATING_FIELD;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
+
 /**
  * Describes a movie with its relevant properties.
- * <br>
- * TODO Move to the proper package (maybe in the DAO module)
  * 
  * @author Marco Pala
  */
@@ -65,7 +65,7 @@ public class Movie
 			this.title = jsonMovie.getString(OMDB_TITLE_FIELD);
 			this.rating = Float.parseFloat(jsonMovie.getString(OMDB_RATING_FIELD));
 		}
-		catch (JSONException|NumberFormatException e)
+		catch (JSONException | NumberFormatException e)
 		{
 			// In case of any issue on getting movie's properties
 			throw new BadMovieFormatException(e);

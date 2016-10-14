@@ -4,7 +4,7 @@
   
   <groupId>ie.brandtone</groupId>
   <artifactId>movies-comparator</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <name>${project.name}</name>
@@ -19,6 +19,16 @@
   </properties>
   
   <dependencies>
+	<dependency>
+	    <groupId>log4j</groupId>
+	    <artifactId>log4j</artifactId>
+	    <version>1.2.17</version>
+	</dependency>  
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20160810</version>
+    </dependency>
     <dependency>    
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -53,8 +63,9 @@
   </build>
     
   <modules>
-    <module>movies-comparator-wsclient</module>
+    <module>movies-comparator-utils</module>
     <module>movies-comparator-dao</module>
+    <module>movies-comparator-wsclient</module>
     <module>movies-comparator-core</module>
     <module>movies-comparator-web</module>
   </modules>

@@ -1,5 +1,9 @@
 package ie.brandtone.moviescomparator.wsclient;
 
+import ie.brandtone.moviescomparator.dao.Movie;
+import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
+import ie.brandtone.moviescomparator.wsclient.exception.MovieNotFoundException;
+
 /**
  * Defines the methods to retrieve movies from a given source.
  * 
