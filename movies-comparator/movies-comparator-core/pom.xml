@@ -17,13 +17,18 @@
   <dependencies>
     <dependency>
       <groupId>ie.brandtone</groupId>
+      <artifactId>movies-comparator-utils</artifactId>
+      <version>${project.modules.version}</version>
+    </dependency>  
+    <dependency>
+      <groupId>ie.brandtone</groupId>
       <artifactId>movies-comparator-dao</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>${project.modules.version}</version>
     </dependency>
     <dependency>
       <groupId>ie.brandtone</groupId>
       <artifactId>movies-comparator-wsclient</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>${project.modules.version}</version>
     </dependency>
   </dependencies>
   

@@ -7,18 +7,18 @@ package ie.brandtone.moviescomparator.core.exception;
  */
 public class MovieComparatorException extends Exception
 {
-	/**
-	 * Serial version UID.
-	 */
-	private static final long serialVersionUID = -2206020276281776217L;
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = -2206020276281776217L;
 
-	/**
-	 * Public constructor with the original cause to encapsulate.
-	 * 
-	 * @param cause The original cause to encapsulate
-	 */
-	public MovieComparatorException(Throwable cause)
-	{
-		super(cause);
-	}
+    /**
+     * Public constructor with the original cause to encapsulate.
+     * 
+     * @param cause The original cause to encapsulate
+     */
+    public MovieComparatorException(Throwable cause)
+    {
+        super(cause);
+    }
 }
