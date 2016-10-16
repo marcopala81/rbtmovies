@@ -1,45 +1,41 @@
 package ie.brandtone.moviescomparator.utils;
 
-import static ie.brandtone.moviescomparator.utils.Commons.getPropertiesInitMsg;
-import static ie.brandtone.moviescomparator.utils.Commons.getPropertyReadingMsg;
-import static ie.brandtone.moviescomparator.utils.Commons.loadProperties;
-
-import java.io.IOException;
-import java.util.Properties;
-
-import org.apache.log4j.Logger;
+import org.junit.Rule;
+import org.junit.rules.TestRule;
 
 /**
- * Base abstract class for the test classes of the Movies Comparator project.
+ * Base abstract class for the Movies Comparator project's test classes.
  * 
  * @author Marco Pala
  * 
  * @version 1.0.0
  */
-public abstract class BaseMoviesComparatorTest
-{
+public abstract class BaseMoviesComparatorTest extends AbstractConfigReader
+{    
     /**
-     * The Apache Log4j logger.
+     * Common JUnit rule to trace the name of the test before execution.
      */
-    private Logger logger = Logger.getLogger(BaseMoviesComparatorTest.class);
-
+    @Rule
+    public TestRule testNameLogger = new TestLogger();
+    
     /**
-     * The configuration filename for test classes.
-     */
-    private String configFilename;
-
-    /**
-     * The configuration file for test classes.
-     */
-    private static Properties testConfigFile;
-
-    /**
-     * Mandatory abstract method to implement to set the configuration filename.
+     * Initialization subrutine for the test subclasses (set up configuration file).
      * 
-     * @since v1.0.0
+     * @throws TestConfigException in case of any initialization issues
      */
-    protected abstract void initConfigFilename();
-
+    @Override
+    protected void initConfigFile() throws TestConfigException
+    {
+        try
+        {
+            loadProperties(this.getClass(), getConfigFilename());
+        }
+        catch (ConfigException ce)
+        {
+            throw (TestConfigException) ce;
+        }
+    }
+    
     /**
      * Utility method to retrieve a property for the test from the given configuration file.
      * 
@@ -51,80 +47,17 @@ public abstract class BaseMoviesComparatorTest
      */
     protected String getTestProperty(String key) throws TestConfigException
     {
-        // Initialize on first access
-        if (getTestConfigFile() == null)
-        {
-            setTestConfigFile(new Properties());
-            initConfigFile();
-        }
-
-        String value = getTestConfigFile().getProperty(key);
-        logger.debug(getPropertyReadingMsg(key, value));
-
-        return value;
-    }
-
-    /**
-     * Get the test configuration filename.
-     *
-     * @return The test configuration filename
-     */
-    protected String getConfigFilename()
-    {
-        if (this.configFilename == null || this.configFilename.isEmpty())
-        {
-            initConfigFilename();
-        }
-
-        return configFilename;
-    }
-
-    /**
-     * Set the test configuration file.
-     *
-     * @param configFilename The test configuration filename to set
-     */
-    protected void setConfigFilename(String configFilename)
-    {
-        this.configFilename = configFilename;
-    }
-
-    /**
-     * Get the test configuration file.
-     *
-     * @return The test configuration file
-     */
-    protected Properties getTestConfigFile()
-    {
-        return testConfigFile;
-    }
-
-    /**
-     * Set the test configuration file.
-     *
-     * @param testConfigFileIn The test configuration file to set
-     */
-    protected void setTestConfigFile(Properties testConfigFileIn)
-    {
-        testConfigFile = testConfigFileIn;
-    }
-
-    /**
-     * Initialization subrutine for the test subclasses (set up configuration file).
-     * 
-     * @throws TestConfigException in case of any initialization issues
-     */
-    private void initConfigFile() throws TestConfigException
-    {
+        String value = null;
+        
         try
         {
-            logger.debug(getPropertiesInitMsg(getConfigFilename()));
-            testConfigFile = loadProperties(testConfigFile, this.getClass(), getConfigFilename());
+            value = getProperty(key); 
         }
-        catch (IOException ioe)
+        catch (ConfigException ce)
         {
-            logger.error(ioe);
-            throw new TestConfigException(ioe);
+            throw (TestConfigException) ce;
         }
+        
+        return value;
     }
 }

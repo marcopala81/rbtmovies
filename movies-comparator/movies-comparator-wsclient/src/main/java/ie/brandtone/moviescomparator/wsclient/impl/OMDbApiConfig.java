@@ -1,14 +1,7 @@
 package ie.brandtone.moviescomparator.wsclient.impl;
 
-import static ie.brandtone.moviescomparator.utils.Commons.getPropertiesInitMsg;
-import static ie.brandtone.moviescomparator.utils.Commons.getPropertyReadingMsg;
-import static ie.brandtone.moviescomparator.utils.Commons.loadProperties;
-
-import java.io.IOException;
-import java.util.Properties;
-
-import org.apache.log4j.Logger;
-
+import ie.brandtone.moviescomparator.utils.AbstractConfigReader;
+import ie.brandtone.moviescomparator.utils.ConfigException;
 import ie.brandtone.moviescomparator.wsclient.exception.WsClientConfigException;
 
 /**
@@ -16,18 +9,8 @@ import ie.brandtone.moviescomparator.wsclient.exception.WsClientConfigException;
  * 
  * @author Marco Pala
  */
-public final class OMDbApiConfig
-{
-    /**
-     * The Apache Log4j logger.
-     */
-    private static final Logger LOGGER = Logger.getLogger(OMDbApiConfig.class);
-
-    /**
-     * The OMDb Api configuration file (Singleton).
-     */
-    private static Properties omdbApiConfigFile;
-
+public final class OMDbApiConfig extends AbstractConfigReader
+{    
     /**
      * The OMDb Api configuration filename.
      */
@@ -67,7 +50,7 @@ public final class OMDbApiConfig
      * The value of the OMDb API <code>Response</code> field in case of movie found.
      */
     public static final String OMDB_RESPONSE_FOUND_KEY = "omdbapi.values.true";
-
+    
     /**
      * Utility method to retrieve a property for the OMDb API from the configuration file.
      * 
@@ -77,51 +60,53 @@ public final class OMDbApiConfig
      * 
      * @throws WsClientConfigException in case of any problem during properties reading
      */
-    public static String getOMDbApiProperty(String key) throws WsClientConfigException
+    public String getOMDbApiProperty(String key) throws WsClientConfigException
     {
-        // Initialize only once
-        if (omdbApiConfigFile == null)
+        String value = null;
+        
+        try
         {
-            omdbApiConfigFile = new Properties();
-            try
-            {
-                LOGGER.debug(getPropertiesInitMsg(OMDB_CONFIG_FILENAME));
-                initOMDbApiConfigFile();
-            }
-            catch (WsClientConfigException wscce)
-            {
-                LOGGER.error(wscce);
-                throw (WsClientConfigException) wscce;
-            }
+            value = getProperty(key); 
         }
-
-        String value = omdbApiConfigFile.getProperty(key);
-        LOGGER.debug(getPropertyReadingMsg(key, value));
-
+        catch (ConfigException ce)
+        {
+            throw (WsClientConfigException) ce;
+        }
+        
         return value;
     }
-
+    
     /**
      * Init subrutine for the OMDb API configuration file.
      * 
      * @throws WsClientConfigException in case of any initialization issues.
      */
-    private static void initOMDbApiConfigFile() throws WsClientConfigException
+    @Override
+    protected void initConfigFile() throws WsClientConfigException
     {
         try
         {
-            omdbApiConfigFile = loadProperties(omdbApiConfigFile, OMDbApiConfig.class, OMDB_CONFIG_FILENAME);
+            loadProperties(this.getClass(), getConfigFilename());
         }
-        catch (IOException ioe)
+        catch (ConfigException ce)
         {
-            throw new WsClientConfigException(ioe);
+            throw (WsClientConfigException) ce;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initConfigFilename()
+    {
+        setConfigFilename(OMDB_CONFIG_FILENAME);
     }
     
     /**
      * Private constructor (for Checkstyle violations purposes).
      */
-    private OMDbApiConfig()
+    OMDbApiConfig()
     {
         // EMPTY BLOCK
     }

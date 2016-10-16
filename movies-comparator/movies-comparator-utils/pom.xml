@@ -13,5 +13,14 @@
   <packaging>jar</packaging>
   
   <name>${project.name} Utils Module</name>
-    
+  
+  <!-- For the ie.brandtone.moviescomparator.utils.BaseMoviesComparatorTest to work -->
+  <dependencies>
+    <dependency>    
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+    </dependency>
+  </dependencies>
+  
 </project>

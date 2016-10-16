@@ -1,23 +1,22 @@
 package ie.brandtone.moviescomparator.wsclient.impl;
 
-import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.REQUESTED_TITLE_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.OMDB_API_GET_REQUEST_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.WS_CLIENT_ERROR_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.OMDB_API_RESPONSE_STATUS_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.MOVIE_FOUND_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.UNEXPECTED_TITLE_ERROR_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.RESPONSE_STATUS_ERROR_MSG_KEY;
+import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.OMDB_API_GET_REQUEST_MSG_KEY;
+import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.OMDB_API_RESPONSE_STATUS_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.OMDB_RESPONSE_FIELD_ERROR_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
-import static ie.brandtone.moviescomparator.utils.Commons.nestedExceptionToString;
+import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.REQUESTED_TITLE_MSG_KEY;
+import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.RESPONSE_STATUS_ERROR_MSG_KEY;
+import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.UNEXPECTED_TITLE_ERROR_MSG_KEY;
+import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.WS_CLIENT_ERROR_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.Commons.getEnteringMessage;
 import static ie.brandtone.moviescomparator.utils.Commons.getExitingMessage;
 import static ie.brandtone.moviescomparator.utils.Commons.getLeavingMessage;
-import static ie.brandtone.moviescomparator.wsclient.impl.OMDbApiConfig.getOMDbApiProperty;
-import static ie.brandtone.moviescomparator.wsclient.impl.OMDbApiConfig.OMDB_TITLE_PARAM_KEY;
+import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
+import static ie.brandtone.moviescomparator.utils.Commons.nestedExceptionToString;
 import static ie.brandtone.moviescomparator.wsclient.impl.OMDbApiConfig.OMDB_API_URL_KEY;
 import static ie.brandtone.moviescomparator.wsclient.impl.OMDbApiConfig.OMDB_RESPONSE_FIELD_KEY;
 import static ie.brandtone.moviescomparator.wsclient.impl.OMDbApiConfig.OMDB_RESPONSE_FOUND_KEY;
+import static ie.brandtone.moviescomparator.wsclient.impl.OMDbApiConfig.OMDB_TITLE_PARAM_KEY;
 
 import static javax.ws.rs.core.Response.Status.OK;
 
@@ -36,9 +35,9 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import ie.brandtone.moviescomparator.dao.Movie;
 import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
+import ie.brandtone.moviescomparator.wsclient.MovieRetrieverService;
 import ie.brandtone.moviescomparator.wsclient.exception.MovieNotFoundException;
 import ie.brandtone.moviescomparator.wsclient.exception.WsClientConfigException;
-import ie.brandtone.moviescomparator.wsclient.MovieRetrieverService;
 import ie.brandtone.moviescomparator.wsclient.exception.WsClientException;
 
 /**
@@ -49,12 +48,17 @@ import ie.brandtone.moviescomparator.wsclient.exception.WsClientException;
 public class OMDbApiRestClient implements MovieRetrieverService
 {
     /**
-     * The Singleton instance of this webservice client.
+     * The configuration reader for the OMDb API webservice.
+     */
+    private static OMDbApiConfig config = new OMDbApiConfig();
+    
+    /**
+     * The <i>Singleton</i> instance for the OMDb API webservice.
      */
     private static MovieRetrieverService instance;
 
     /**
-     * The Jersey client for for the OMDb API webservice.
+     * The Jersey client for the OMDb API webservice.
      */
     private static WebResource webResource;
 
@@ -72,14 +76,14 @@ public class OMDbApiRestClient implements MovieRetrieverService
         String methodName = "getMovieByTitle";
         LOGGER.info(getEnteringMessage(methodName));
         LOGGER.info(getMessageFromBundle(REQUESTED_TITLE_MSG_KEY, title));
-
+                
         Movie movie = null;
 
         try
         {
             // Prepare the query string for the GET method
             MultivaluedMap<String, String> inputTitle = new MultivaluedMapImpl();
-            inputTitle.add(getOMDbApiProperty(OMDB_TITLE_PARAM_KEY), title);
+            inputTitle.add(config.getOMDbApiProperty(OMDB_TITLE_PARAM_KEY), title);
 
             // GET method
             LOGGER.info(getMessageFromBundle(OMDB_API_GET_REQUEST_MSG_KEY));
@@ -91,6 +95,7 @@ public class OMDbApiRestClient implements MovieRetrieverService
             catch (UniformInterfaceException | ClientHandlerException e)
             {
                 LOGGER.error(getMessageFromBundle(WS_CLIENT_ERROR_MSG_KEY));
+                LOGGER.info(getLeavingMessage(methodName));
                 throw new MovieNotFoundException(new WsClientException(e), title);
             }
 
@@ -102,27 +107,29 @@ public class OMDbApiRestClient implements MovieRetrieverService
             if (status != OK)
             {
                 LOGGER.error(getMessageFromBundle(RESPONSE_STATUS_ERROR_MSG_KEY));
+                LOGGER.info(getLeavingMessage(methodName));
                 throw new MovieNotFoundException(new WsClientException(status.getStatusCode()), title);
             }
 
             // Raw response entity (String)
-            String responseEntity = response.getEntity(String.class);
-            LOGGER.debug(responseEntity);
+            String responseOMDbEntity = response.getEntity(String.class);
+            LOGGER.debug(responseOMDbEntity);
 
             // JSON String response converted to a Jersey JSON object
-            JSONObject jObject = new JSONObject(responseEntity);
-            String responseField = jObject.getString(getOMDbApiProperty(OMDB_RESPONSE_FIELD_KEY));
+            JSONObject omdbJsonMovie = new JSONObject(responseOMDbEntity);
+            String responseFiledKey = config.getOMDbApiProperty(OMDB_RESPONSE_FIELD_KEY);
+            String responseField = omdbJsonMovie.getString(responseFiledKey);
 
             // Check "Response" field; if 'false' throw a MovieNotFoundException
-            if (!getOMDbApiProperty(OMDB_RESPONSE_FOUND_KEY).equals(responseField))
+            if (!config.getOMDbApiProperty(OMDB_RESPONSE_FOUND_KEY).equals(responseField))
             {
-                LOGGER.error(getMessageFromBundle(OMDB_RESPONSE_FIELD_ERROR_MSG_KEY, getOMDbApiProperty(OMDB_RESPONSE_FIELD_KEY), responseField, title));
+                LOGGER.error(getMessageFromBundle(OMDB_RESPONSE_FIELD_ERROR_MSG_KEY, responseFiledKey, responseField, title));
                 LOGGER.info(getLeavingMessage(methodName));
                 throw new MovieNotFoundException(title);
             }
 
             // Fill the movie object
-            movie = AbstractOMDbMovieFactory.movieFromJson(jObject);
+            movie = AbstractOMDbMovieFactory.getMovieFromOMDbJson(omdbJsonMovie);
         }
         catch (WsClientConfigException | BadMovieFormatException e)
         {
@@ -137,6 +144,7 @@ public class OMDbApiRestClient implements MovieRetrieverService
         if (!movie.getTitle().equalsIgnoreCase(title))
         {
             LOGGER.error(getMessageFromBundle(UNEXPECTED_TITLE_ERROR_MSG_KEY, movie.getTitle(), title));
+            LOGGER.info(getLeavingMessage(methodName));
             throw new MovieNotFoundException(title);
         }
         else
@@ -150,9 +158,9 @@ public class OMDbApiRestClient implements MovieRetrieverService
     }
 
     /**
-     * Get the OMBb API REST client Singleton instance (cast to <code>MovieRetrieverService</code>).
+     * Get the OMBb API REST client <i>Singleton</i> instance (cast to <code>MovieRetrieverService</code>).
      * 
-     * @return The OMBb API REST client Singleton instance
+     * @return The OMBb API REST client <i>Singleton</i> instance
      * 
      * @throws WsClientException in case of any error during the initialization of the REST client.
      */
@@ -179,7 +187,7 @@ public class OMDbApiRestClient implements MovieRetrieverService
         try
         {
             Client wsclient = Client.create();
-            webResource = wsclient.resource(getOMDbApiProperty(OMDB_API_URL_KEY));
+            webResource = wsclient.resource(config.getOMDbApiProperty(OMDB_API_URL_KEY));
         }
         catch (Exception e)
         {

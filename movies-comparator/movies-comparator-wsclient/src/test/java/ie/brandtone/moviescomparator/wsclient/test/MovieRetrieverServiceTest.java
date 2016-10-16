@@ -25,7 +25,7 @@ public class MovieRetrieverServiceTest extends BaseMoviesComparatorTest
     /**
      * Configuration filename for this test class.
      */
-    private static final String TEST_CONFIG_FILENAME = "wsclient.test.properties";
+    private static final String WSCLIENT_TEST_CONFIG_FILENAME = "wsclient.test.properties";
 
     /**
      * Test the {@link MovieRetrieverService#getMovieByTitle(String)} method with a matching title.
@@ -73,7 +73,7 @@ public class MovieRetrieverServiceTest extends BaseMoviesComparatorTest
     @Override
     protected void initConfigFilename()
     {
-        setConfigFilename(TEST_CONFIG_FILENAME);
+        setConfigFilename(WSCLIENT_TEST_CONFIG_FILENAME);
     }
 
     /**

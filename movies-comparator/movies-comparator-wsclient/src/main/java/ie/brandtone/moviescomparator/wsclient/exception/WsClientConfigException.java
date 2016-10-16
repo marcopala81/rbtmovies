@@ -1,14 +1,15 @@
 package ie.brandtone.moviescomparator.wsclient.exception;
 
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.WSCLIENT_CONFIG_ERROR_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
+
+import ie.brandtone.moviescomparator.utils.ConfigException;
 
 /**
  * Used for reporting an exception related to the webservice client configuration.
  * 
  * @author Marco Pala
  */
-public class WsClientConfigException extends Exception
+public class WsClientConfigException extends ConfigException
 {
     /**
      * Serial version UID.
@@ -22,6 +23,6 @@ public class WsClientConfigException extends Exception
      */
     public WsClientConfigException(Throwable cause)
     {
-        super(getMessageFromBundle(WSCLIENT_CONFIG_ERROR_MSG_KEY), cause);
+        super(cause, WSCLIENT_CONFIG_ERROR_MSG_KEY);
     }
 }

@@ -4,18 +4,11 @@ import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.ENTERING_MS
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.EXITING_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.LEAVING_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.MATCHING_VALUES_ERROR_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.PROPERTIES_INIT_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.PROPERTY_READING_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.MESSAGES_BUNDLE_NAME;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.TO_STRING_NESTED_CAUSE_KEY;
-import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.FILE_NOT_FOUND_ERROR_MSG_KEY;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
@@ -114,76 +107,31 @@ public final class Commons
     }
 
     /**
-     * Get the {@link Properties} initialization message formatted with the filename for debugging purposes.
+     * Given a {@link String} literal, this method checks if it is empty (or <code>null</code>).
      * 
-     * @param filename The filename to trace
+     * @param literal The literal to check
      * 
-     * @return The formatted Properties initialization message with the filename
-     * 
-     * @since v1.0.0
-     */
-    public static String getPropertiesInitMsg(String filename)
-    {
-        return getMessageFromBundle(PROPERTIES_INIT_MSG_KEY, filename);
-    }
-
-    /**
-     * Get the property-reading message formatted with the key/value pair for debugging purposes.
-     * 
-     * @param key The key of the property to trace
-     * @param value The value of the property to trace
-     * 
-     * @return The formatted property-reading message with the key/value pair
+     * @return <code>true</code> if the given String is null or empty; otherwise it returns <code>false</code>
      * 
      * @since v1.0.0
      */
-    public static String getPropertyReadingMsg(String key, String value)
+    public static boolean isNullString(String literal)
     {
-        return getMessageFromBundle(PROPERTY_READING_MSG_KEY, key, value);
+        return (literal == null || literal.isEmpty());
     }
-
+    
     /**
      * Given a {@link String} literal, this method checks if it is empty (or null) and eventually returns the {@link Commons#N_A} value; otherwise returns the literal itself.
      * 
      * @param literal The literal to check
      * 
-     * @return The {@link Commons#N_A} value (if <code>literal</code> is null or empty) or the literal itself
+     * @return The <code>N_A</code> value (if <code>literal</code> is null or empty) or the literal itself
      * 
      * @since v1.0.0
      */
     public static String literalOrNa(String literal)
     {
-        return (literal == null || literal.isEmpty()) ? N_A : literal;
-    }
-
-    /**
-     * Common routine to load a {@link Properties} file given the caller and a filename.
-     * 
-     * @param p Properties file to load
-     * @param clazz The caller class
-     * @param configFilename The Properties filename
-     * 
-     * @return The Properties file with the loaded key-value map
-     * 
-     * @throws IOException in case of any I/O issue
-     * 
-     * @since v1.0.0
-     */
-    public static Properties loadProperties(Properties p, Class<?> clazz, String configFilename) throws IOException
-    {
-        InputStream is = clazz.getClassLoader().getResourceAsStream(configFilename);
-
-        if (is != null)
-        {
-            p.load(is);
-            is.close();
-        }
-        else
-        {
-            throw new FileNotFoundException(getMessageFromBundle(FILE_NOT_FOUND_ERROR_MSG_KEY, configFilename));
-        }
-
-        return p;
+        return (isNullString(literal)) ? N_A : literal;
     }
 
     /**

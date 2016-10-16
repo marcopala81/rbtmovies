@@ -1,113 +1,83 @@
 package ie.brandtone.moviescomparator.dao;
 
-import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
-import static ie.brandtone.moviescomparator.utils.Commons.literalOrNa;
-import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.TO_STRING_MOVIE_KEY;
-
 /**
- * Describes a movie with its relevant properties.
+ * Describes a movie with the relevant getter methods and operations.
  * 
  * @author Marco Pala
+ * 
+ * @version 1.0.0
  */
-public class Movie
+public interface Movie
 {
     /**
-     * The movie ID.
+     * The generic JSON ID key.
      */
-    private String id;
+    static final String ID_KEY = "ID";
+    
+    /**
+     * The generic JSON title key.
+     */
+    static final String TITLE_KEY = "Title";
 
     /**
-     * The movie title.
+     * The generic JSON rating key.
      */
-    private String title;
+    static final String RATING_KEY = "Rating";
 
     /**
-     * The movie rating.
+     * The generic JSON favourite key.
      */
-    private float rating;
-
-    /**
-     * Public constructor with the movie's attributes.
-     * 
-     * @param id The movie ID
-     * @param title The movie title
-     * @param rating The movie rating
-     */
-    public Movie(String id, String title, float rating)
-    {
-        this.id = literalOrNa(id);
-        this.title = literalOrNa(title);
-        this.rating = rating;
-    }
-
+    static final String FAVOURITE_KEY = "Favourite";
+    
     /**
      * Get the movie ID.
      *
      * @return The ID field
+     * 
+     * @since v1.0.0
      */
-    public String getId()
-    {
-        return id;
-    }
-
-    /**
-     * Set the movie ID.
-     *
-     * @param id The ID to set
-     */
-    public void setId(String id)
-    {
-        this.id = id;
-    }
+    String getId();
 
     /**
      * Get the movie title.
      *
      * @return The title field
+     * 
+     * @since v1.0.0
      */
-    public String getTitle()
-    {
-        return title;
-    }
-
-    /**
-     * Set the movie title.
-     *
-     * @param title The title to set
-     */
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
+    String getTitle();
 
     /**
      * Get the movie rating.
      *
      * @return The rating field
-     */
-    public float getRating()
-    {
-        return rating;
-    }
-
-    /**
-     * Set the movie rating.
-     *
-     * @param rating The rating to set
-     */
-    public void setRating(float rating)
-    {
-        this.rating = rating;
-    }
-
-    /**
-     * Overrides the superclass method to correctly format movie's infos for logging.
      * 
-     * @return The {@link Movie} string representation
+     * @since v1.0.0
      */
-    @Override
-    public String toString()
-    {
-        return getMessageFromBundle(TO_STRING_MOVIE_KEY, this.getId(), this.getTitle(), String.valueOf(this.getRating()));
-    }
+    float getRating();
+
+    /**
+     * Get the movie favourite flag.
+     *
+     * @return The favourite flag
+     * 
+     * @since v1.0.0
+     */
+    boolean isFavourite();
+    
+    /**
+     * Mark the movie as favourite.
+     * 
+     * @since v1.0.0
+     */
+    void markAsFavourite();
+    
+    /**
+     * Format the {@link Movie}'s information as a JSON string for logging purposes.
+     * 
+     * @return The Movie string representation
+     * 
+     * @since v1.0.0
+     */
+    String toString();
 }

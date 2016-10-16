@@ -1,14 +1,13 @@
 package ie.brandtone.moviescomparator.utils;
 
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.TEST_CONFIG_ERROR_MSG_KEY;
-import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
 
 /**
  * Used for reporting an exception related to the test configuration.
  * 
  * @author Marco Pala
  */
-public class TestConfigException extends Exception
+public class TestConfigException extends ConfigException
 {
     /**
      * Serial version UID.
@@ -22,6 +21,6 @@ public class TestConfigException extends Exception
      */
     public TestConfigException(Throwable cause)
     {
-        super(getMessageFromBundle(TEST_CONFIG_ERROR_MSG_KEY), cause);
+        super(cause, TEST_CONFIG_ERROR_MSG_KEY);
     }
 }
