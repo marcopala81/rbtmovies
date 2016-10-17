@@ -10,37 +10,19 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
  
-    <!-- Web Context -->
-    <context:component-scan base-package="ie.brandtone.moviescomparator.web" />
     <context:component-scan base-package="ie.brandtone.moviescomparator.dao" />
-    
-    <mvc:annotation-driven />
-    <mvc:default-servlet-handler />
-    <mvc:resources mapping="/static/**" location="/static/" />
-    
-	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename">
-            <value>messages</value>
-        </property>
-	</bean>
-	
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/jsp/" />
-        <property name="suffix" value=".jsp" />
-    </bean>
 
     <bean id="movieDAO" class="ie.brandtone.moviescomparator.dao.impl.MovieDAOImpl" />
                 
     <!-- DB Context -->
-    <bean id="jdbcProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:location="classpath:jdbc.properties" />
+    <bean id="jdbcProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:location="dao.test.properties" />
 
     <bean id="dataSource"
         class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-        p:driverClassName="${jdbc.driverClassName}"
-        p:url="${jdbc.databaseurl}"
-        p:username="${jdbc.username}"
-        p:password="${jdbc.password}" />
+        p:driverClassName="${dao.test.jdbc.driverClassName}"
+        p:url="${dao.test.jdbc.databaseurl}"
+        p:username="${dao.test.jdbc.username}"
+        p:password="${dao.test.jdbc.password}" />
   
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />

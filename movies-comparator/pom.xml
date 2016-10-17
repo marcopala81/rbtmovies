@@ -42,6 +42,10 @@
     <junit.version>4.12</junit.version>
     <json.version>20160810</json.version>
     <jersey-client.version>1.19.2</jersey-client.version>
+    <hibernate-jpa-api.version>1.0.0.Final</hibernate-jpa-api.version>
+    <hibernate-core.version>5.1.2.Final</hibernate-core.version>
+    <hsqldb.version>2.3.4</hsqldb.version>
+    <commons-dbcp.version>1.4</commons-dbcp.version>
     <springframework.version>4.3.3.RELEASE</springframework.version>
     <validation-api.version>1.1.0.Final</validation-api.version>
     <hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
@@ -111,12 +115,38 @@
       <artifactId>json</artifactId>
       <version>${json.version}</version>
     </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${springframework.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+        <version>${springframework.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-orm</artifactId>
+        <version>${springframework.version}</version>
+    </dependency>    
+	<dependency>
+	    <groupId>commons-dbcp</groupId>
+	    <artifactId>commons-dbcp</artifactId>
+	    <version>${commons-dbcp.version}</version>
+	</dependency>    
     <dependency>    
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>    
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${springframework.version}</version>
+      <scope>test</scope>
+    </dependency>    
   </dependencies>
   
   <build>

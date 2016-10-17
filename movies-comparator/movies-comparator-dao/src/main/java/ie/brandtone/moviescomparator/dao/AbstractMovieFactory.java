@@ -12,7 +12,9 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ie.brandtone.moviescomparator.dao.entity.MovieEntity;
 import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
+import ie.brandtone.moviescomparator.dao.impl.MovieImpl;
 
 /**
  * Creates general purpose {@link Movie} objects (adhere to the <i>AbstractFactory</i> pattern).
@@ -80,6 +82,41 @@ public abstract class AbstractMovieFactory
         
         return movie;
     }
+    
+    /**
+     * Creates a {@link MovieEntity} object with the movie's attributes.
+     * 
+     * @param id The movie ID
+     * @param title The movie title
+     * @param rating The movie rating
+     * 
+     * @return A new MovieEntity object with filled attributes
+     * @since v1.0.0
+     */
+    public static MovieEntity newMovieEntity(String id, String title, float rating)
+    {
+        MovieEntity movieEntity = new MovieEntity(id, title, rating);
+        LOGGER.debug(getMessageFromBundle(MOVIE_OBJECT_MSG_KEY, movieEntity.toString()));
+        
+        return movieEntity;
+    }
+    
+    /**
+     * Creates a {@link MovieEntity} object from a {@link Movie} object (by copying fields).
+     * 
+     * @param movie The Movie to copy
+     * 
+     * @return A new MovieEntity object equivalent to the Movie object
+     * 
+     * @since v1.0.0
+     */
+    public static MovieEntity getMovieEntityFromMovie(Movie movie)
+    {
+        MovieEntity movieEntity = newMovieEntity(movie.getId(), movie.getTitle(), movie.getRating());
+        LOGGER.debug(getMessageFromBundle(MOVIE_OBJECT_MSG_KEY, movieEntity.toString()));
+        
+        return movieEntity;
+    }    
     
     /**
      * Creates a {@link Movie} object starting from its {@link JSONObject} representation.

@@ -1,4 +1,4 @@
-package ie.brandtone.moviescomparator.dao;
+package ie.brandtone.moviescomparator.dao.impl;
 
 import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
 import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.ID_KEY; 
@@ -7,6 +7,8 @@ import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.RATING_KEY;
 import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.FAVOURITE_KEY;
 
 import org.apache.log4j.Logger;
+
+import ie.brandtone.moviescomparator.dao.Movie;
 
 import static ie.brandtone.moviescomparator.utils.Commons.N_A;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.TO_STRING_SIMPLE_JSON_MOVIE_KEY;
@@ -44,6 +46,32 @@ public class MovieImpl implements Movie
      * The movie favourite flag.
      */
     private boolean favourite;
+    
+    /**
+     * Constructor with default initialization fields.
+     */
+    public MovieImpl()
+    {
+        this.id = N_A;
+        this.title = N_A;
+        this.rating = 0.0f;
+        this.favourite = false;
+    }
+    
+    /**
+     * Constructor with specified fields.
+     * 
+     * @param id The movie ID
+     * @param title The movie title
+     * @param rating The movie rating
+     */
+    public MovieImpl(String id, String title, float rating)
+    {
+        this.id = id;
+        this.title = title;
+        this.rating = rating;
+        this.favourite = false;
+    }
     
     /**
      * {@inheritDoc}
@@ -142,31 +170,5 @@ public class MovieImpl implements Movie
                                     TITLE_KEY, this.getTitle(),
                                     RATING_KEY, String.valueOf(this.getRating()),
                                     FAVOURITE_KEY, String.valueOf(this.isFavourite()));
-    }
-    
-    /**
-     * Protected constructor with default initialization fields.
-     */
-    protected MovieImpl()
-    {
-        this.id = N_A;
-        this.title = N_A;
-        this.rating = 0.0f;
-        this.favourite = false;
-    }
-    
-    /**
-     * Protected constructor with specified fields.
-     * 
-     * @param id The movie ID
-     * @param title The movie title
-     * @param rating The movie rating
-     */
-    protected MovieImpl(String id, String title, float rating)
-    {
-        this.id = id;
-        this.title = title;
-        this.rating = rating;
-        this.favourite = false;
-    }    
+    }   
 }

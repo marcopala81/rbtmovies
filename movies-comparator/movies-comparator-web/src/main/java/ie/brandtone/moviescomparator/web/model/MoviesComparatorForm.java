@@ -1,5 +1,7 @@
 package ie.brandtone.moviescomparator.web.model;
 
+import static ie.brandtone.moviescomparator.utils.Commons.ALPHANUMERICAL_PATTERN;
+
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -11,11 +13,6 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class MoviesComparatorForm
 {
-    /**
-     * RegExp pattern for validating movie titles with alphanumerical characters and spaces.
-     */
-    private static final String ALPHANUMERICAL_PATTERN = "[a-zA-Z0-9 ]+";
-
     /**
      * The first movie title for the comparison.
      */

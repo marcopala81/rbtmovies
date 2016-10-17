@@ -19,12 +19,7 @@ import java.util.ResourceBundle;
  * @version 1.0.0
  */
 public final class Commons
-{
-    /**
-     * Initialize the {@link ResourceBundle} for messaging purposes.
-     */
-    private static final ResourceBundle MESSAGES_BUNDLE = ResourceBundle.getBundle(MESSAGES_BUNDLE_NAME, new Locale("en", "IE"));
-
+{   
     //
     // COMMON LITERALS
     //
@@ -32,6 +27,16 @@ public final class Commons
      * The <code>N/A</code> literal (in case of not assigned {@link String} values).
      */
     public static final String N_A = "N/A";
+
+    /**
+     * <i>RegExp</i> pattern for validating movie titles (only alphanumerical characters and spaces allowed).
+     */
+    public static final String ALPHANUMERICAL_PATTERN = "[a-zA-Z0-9 ]+";
+    
+    /**
+     * Initialize the {@link ResourceBundle} for messaging purposes.
+     */
+    private static final ResourceBundle MESSAGES_BUNDLE = ResourceBundle.getBundle(MESSAGES_BUNDLE_NAME, new Locale("en", "IE"));
 
     /**
      * Get a formatted message from the messages bundle (matching the given key).

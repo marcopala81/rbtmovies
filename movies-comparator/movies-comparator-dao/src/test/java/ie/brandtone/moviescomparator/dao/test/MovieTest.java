@@ -10,20 +10,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import ie.brandtone.moviescomparator.dao.Movie;
-import ie.brandtone.moviescomparator.utils.BaseMoviesComparatorTest;
 
 /**
  * Class test for the {@link Movie} object.
  * 
  * @author Marco Pala
  */
-public class MovieTest extends BaseMoviesComparatorTest
-{
-    /**
-     * Configuration filename for this test class.
-     */
-    private static final String DAO_TEST_CONFIG_FILENAME = "dao.test.properties";
-    
+public class MovieTest extends BaseDAOModuleTest
+{    
     /**
      * Test the {@link Movie} constructor.
      * 
@@ -58,14 +52,5 @@ public class MovieTest extends BaseMoviesComparatorTest
         // Mark as favourite
         testMovie.markAsFavourite();
         assertTrue(testMovie.isFavourite());        
-    }   
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void initConfigFilename()
-    {
-        setConfigFilename(DAO_TEST_CONFIG_FILENAME);
     }
 }

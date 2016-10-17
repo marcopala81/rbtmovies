@@ -22,13 +22,13 @@
     </dependency>
     <dependency>
       <groupId>ie.brandtone</groupId>
-      <artifactId>movies-comparator-core</artifactId>
+      <artifactId>movies-comparator-dao</artifactId>
       <version>${project.modules.version}</version>
     </dependency>
     <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>${springframework.version}</version>
+      <groupId>ie.brandtone</groupId>
+      <artifactId>movies-comparator-core</artifactId>
+      <version>${project.modules.version}</version>
     </dependency>
     <dependency>
         <groupId>org.springframework</groupId>
