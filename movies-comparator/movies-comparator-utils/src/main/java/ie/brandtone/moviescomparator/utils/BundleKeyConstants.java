@@ -66,9 +66,14 @@ public final class BundleKeyConstants
     public static final String MOVIE_FOUND_MSG_KEY = "logging.info.movieFound";
     
     /**
-     * The key to mark a Movie as favourite.
+     * The key to retrieve the marked as favourite message.
      */    
     public static final String MOVIE_MARKED_AS_FAVOURITE_MSG_KEY = "logging.info.movieMarkedAsFavourite";
+    
+    /**
+     * The key to retrieve the movie score updated message.
+     */    
+    public static final String MOVIE_SCORE_UPDATED_MSG_KEY = "logging.info.movieScoreUpdated";
     
     /**
      * The key to retrieve the comparing movies message.
@@ -99,7 +104,12 @@ public final class BundleKeyConstants
      * The key to retrieve the same rating movies message.
      */
     public static final String SAME_RATING_MOVIES_MSG_KEY = "logging.info.sameRatingMovies";
-    
+
+    /**
+     * The key to retrieve the and-the-winner-is message.
+     */
+    public static final String AND_THE_WINNNER_IS_MSG_KEY = "logging.info.andTheWinnerIs";
+        
     //
     // ERROR MESSAGE KEYS
     //

@@ -1,12 +1,17 @@
 package ie.brandtone.moviescomparator.dao;
 
 import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
+import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.ID_KEY; 
+import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.TITLE_KEY;
+import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.RATING_KEY;
+import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.FAVOURITE_KEY;
 
 import org.apache.log4j.Logger;
 
 import static ie.brandtone.moviescomparator.utils.Commons.N_A;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.TO_STRING_SIMPLE_JSON_MOVIE_KEY;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.MOVIE_MARKED_AS_FAVOURITE_MSG_KEY;
+import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.MOVIE_SCORE_UPDATED_MSG_KEY;
 
 /**
  * Implements a {@link Movie} with its relevant properties and operations.
@@ -88,12 +93,12 @@ public class MovieImpl implements Movie
     }
 
     /**
-     * Set the movie rating.
-     *
-     * @param rating The rating to set
+     * {@inheritDoc}
      */
+    @Override
     public void setRating(float rating)
     {
+        LOGGER.info(getMessageFromBundle(MOVIE_SCORE_UPDATED_MSG_KEY, this.getTitle(), String.valueOf(this.getRating()), String.valueOf(rating)));
         this.rating = rating;
     }
 

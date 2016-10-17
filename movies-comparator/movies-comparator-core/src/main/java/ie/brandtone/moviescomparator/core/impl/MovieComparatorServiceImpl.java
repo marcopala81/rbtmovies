@@ -91,7 +91,7 @@ public class MovieComparatorServiceImpl implements MovieComparatorService
         Movie bestOne = checkFavourite(movie1, movie2);
         boolean bestOneFound = false;
         
-        if(bestOne == null)
+        if (bestOne == null)
         {
             LOGGER.info(getMessageFromBundle(NO_FAVOURITE_MOVIE_MSG_KEY, movie1.getTitle(), movie2.getTitle()));
             // Begin comparison by rating

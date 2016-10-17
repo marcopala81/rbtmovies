@@ -8,27 +8,7 @@ package ie.brandtone.moviescomparator.dao;
  * @version 1.0.0
  */
 public interface Movie
-{
-    /**
-     * The generic JSON ID key.
-     */
-    static final String ID_KEY = "ID";
-    
-    /**
-     * The generic JSON title key.
-     */
-    static final String TITLE_KEY = "Title";
-
-    /**
-     * The generic JSON rating key.
-     */
-    static final String RATING_KEY = "Rating";
-
-    /**
-     * The generic JSON favourite key.
-     */
-    static final String FAVOURITE_KEY = "Favourite";
-    
+{    
     /**
      * Get the movie ID.
      *
@@ -57,6 +37,15 @@ public interface Movie
     float getRating();
 
     /**
+     * Set the movie rating (for modifing local results).
+     *
+     * @param rating The new rating to set
+     * 
+     * @since v1.0.0
+     */
+    void setRating(float rating);
+    
+    /**
      * Get the movie favourite flag.
      *
      * @return The favourite flag
@@ -66,7 +55,7 @@ public interface Movie
     boolean isFavourite();
     
     /**
-     * Mark the movie as favourite.
+     * Mark the movie as favourite (for pre-cooking results).
      * 
      * @since v1.0.0
      */

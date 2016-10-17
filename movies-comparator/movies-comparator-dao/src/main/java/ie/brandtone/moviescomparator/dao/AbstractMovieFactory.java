@@ -1,8 +1,5 @@
 package ie.brandtone.moviescomparator.dao;
 
-import static ie.brandtone.moviescomparator.dao.Movie.ID_KEY;
-import static ie.brandtone.moviescomparator.dao.Movie.RATING_KEY;
-import static ie.brandtone.moviescomparator.dao.Movie.TITLE_KEY;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.JSON_TO_MOVIE_CONVERTED_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.MOVIE_OBJECT_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.SIMPLE_JSON_TO_MOVIE_CONVERSION_MSG_KEY;
@@ -25,7 +22,27 @@ import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
  * @version 1.0.0
  */
 public abstract class AbstractMovieFactory
-{   
+{
+    /**
+     * The generic JSON ID key.
+     */
+    public static final String ID_KEY = "ID";
+    
+    /**
+     * The generic JSON title key.
+     */
+    public static final String TITLE_KEY = "Title";
+
+    /**
+     * The generic JSON rating key.
+     */
+    public static final String RATING_KEY = "Rating";
+
+    /**
+     * The generic JSON favourite key.
+     */
+    public static final String FAVOURITE_KEY = "Favourite";  
+    
     /**
      * The Apache Log4j logger.
      */
@@ -53,6 +70,7 @@ public abstract class AbstractMovieFactory
      * @param title The movie title
      * @param rating The movie rating
      * 
+     * @return A new Movie object with filled attributes
      * @since v1.0.0
      */
     public static Movie newMovie(String id, String title, float rating)
