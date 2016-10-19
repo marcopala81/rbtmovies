@@ -1,6 +1,6 @@
 package ie.brandtone.moviescomparator.wsclient;
 
-import ie.brandtone.moviescomparator.dao.Movie;
+import ie.brandtone.moviescomparator.dao.entity.MovieEntity;
 import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
 import ie.brandtone.moviescomparator.wsclient.exception.MovieNotFoundException;
 import ie.brandtone.moviescomparator.wsclient.exception.WsClientConfigException;
@@ -15,11 +15,11 @@ import ie.brandtone.moviescomparator.wsclient.exception.WsClientConfigException;
 public interface MovieRetrieverService
 {
     /**
-     * For any given title, retrieves the matching movie object.
+     * For any given title, retrieves the matching movie and returns a {@link MovieEntity}.
      * 
      * @param title The requested title
      * 
-     * @return The object representing the retrieved movie
+     * @return The MovieEntity representing the retrieved movie
      * 
      * @throws MovieNotFoundException in case of any issue during the movie retrieval
      * @throws BadMovieFormatException in case of a bad JSON input format
@@ -27,5 +27,5 @@ public interface MovieRetrieverService
      * 
      * @since v1.0.0
      */
-    Movie getMovieByTitle(String title) throws MovieNotFoundException, BadMovieFormatException, WsClientConfigException;
+    MovieEntity getMovieByTitle(String title) throws MovieNotFoundException, BadMovieFormatException, WsClientConfigException;
 }

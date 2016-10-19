@@ -64,17 +64,7 @@ public final class BundleKeyConstants
      * The key to retrieve the movie found message.
      */
     public static final String MOVIE_FOUND_MSG_KEY = "logging.info.movieFound";
-    
-    /**
-     * The key to retrieve the marked as favourite message.
-     */    
-    public static final String MOVIE_MARKED_AS_FAVOURITE_MSG_KEY = "logging.info.movieMarkedAsFavourite";
-    
-    /**
-     * The key to retrieve the movie score updated message.
-     */    
-    public static final String MOVIE_SCORE_UPDATED_MSG_KEY = "logging.info.movieScoreUpdated";
-    
+            
     /**
      * The key to retrieve the comparing movies message.
      */
@@ -109,7 +99,17 @@ public final class BundleKeyConstants
      * The key to retrieve the and-the-winner-is message.
      */
     public static final String AND_THE_WINNNER_IS_MSG_KEY = "logging.info.andTheWinnerIs";
-        
+
+    /**
+     * The key to retrieve the movie updated message.
+     */
+    public static final String MOVIE_UPDATED_MSG_KEY = "logging.info.movieUpdated";
+
+    /**
+     * The key to retrieve the nothing changed message.
+     */
+    public static final String NOTHING_CHANGED_MSG_KEY = "logging.info.nothingChanged";
+    
     //
     // ERROR MESSAGE KEYS
     //
@@ -185,7 +185,17 @@ public final class BundleKeyConstants
      * The key to retrieve the property-reading message.
      */
     public static final String PROPERTY_READING_MSG_KEY = "logging.debug.propertyReading";
+    
+    /**
+     * The key to retrieve the movie score updated message.
+     */    
+    public static final String MOVIE_SCORE_UPDATED_MSG_KEY = "logging.debug.movieScoreUpdated";
 
+    /**
+     * The key to retrieve the marked as favourite message.
+     */    
+    public static final String MOVIE_MARKED_AS_FAVOURITE_MSG_KEY = "logging.debug.movieMarkedAsFavourite";
+    
     //
     // TO_STRING FORMATTING
     //
@@ -221,6 +231,16 @@ public final class BundleKeyConstants
      * The key to retrieve the movie title literal for testing purpose.
      */
     public static final String MOVIE_TITLE_LITERAL_KEY = "testing.literals.movieTitle";
+    
+    /**
+     * The key to retrieve the number of movies literal for testing purpose.
+     */    
+    public static final String MOVIE_RATING_LITERAL_KEY = "testing.literals.movieRating";
+
+    /**
+     * The key to retrieve the number of movies literal for testing purpose.
+     */    
+    public static final String NUM_OF_MOVIES_LITERAL_KEY = "testing.literals.numberOfMovies";
     
     /**
      * Private constructor (for Checkstyle violations purposes).

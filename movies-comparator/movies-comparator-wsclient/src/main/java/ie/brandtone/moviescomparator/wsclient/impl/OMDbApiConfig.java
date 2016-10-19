@@ -1,7 +1,7 @@
 package ie.brandtone.moviescomparator.wsclient.impl;
 
 import ie.brandtone.moviescomparator.utils.AbstractConfigReader;
-import ie.brandtone.moviescomparator.utils.ConfigException;
+import ie.brandtone.moviescomparator.utils.exceptions.ConfigException;
 import ie.brandtone.moviescomparator.wsclient.exception.WsClientConfigException;
 
 /**

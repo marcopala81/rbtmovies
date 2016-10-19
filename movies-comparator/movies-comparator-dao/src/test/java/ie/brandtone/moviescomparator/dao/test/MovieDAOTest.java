@@ -1,6 +1,6 @@
 package ie.brandtone.moviescomparator.dao.test;
 
-import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.newMovieEntity;
+import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.getMovieFromTestConfig;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.MOVIE_TITLE_LITERAL_KEY;
 import static ie.brandtone.moviescomparator.utils.Commons.getMatchingValuesErrorMsg;
 import static org.junit.Assert.assertEquals;
@@ -23,13 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ie.brandtone.moviescomparator.dao.MovieDAO;
 import ie.brandtone.moviescomparator.dao.entity.MovieEntity;
+import ie.brandtone.moviescomparator.utils.exceptions.TestConfigException;
 
 /**
  * Class test for testing the in-memory Movie Database with the {@link MovieDAO} interface.
  * 
  * @author Marco Pala
  */
-@ContextConfiguration(locations = "classpath:test-dao-context.xml")
+@ContextConfiguration(locations = "classpath:dao-test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class})
 public class MovieDAOTest extends BaseDAOModuleTest
@@ -49,14 +50,9 @@ public class MovieDAOTest extends BaseDAOModuleTest
     @Transactional
     @Rollback(true)
     public void insertMovieTest001() throws Exception
-    {
-        // New Movie entity
-        String id = getTestProperty("dao.test.insert.movie1.id");
-        String title = getTestProperty("dao.test.insert.movie1.title");
-        String rating = getTestProperty("dao.test.insert.movie1.rating");
-        
+    {        
         // Create MovieEntity and insert in the DB
-        MovieEntity movieEntity1 = newMovieEntity(id, title, Float.parseFloat(rating));        
+        MovieEntity movieEntity1 = getDaoTestMovie1();      
         Integer movieId = movieDAO.insertMovie(movieEntity1);
 
         // Check title from DB
@@ -76,15 +72,15 @@ public class MovieDAOTest extends BaseDAOModuleTest
     public void updateMovieTest002() throws Exception
     {
         // New Movie entity
-        String id = getTestProperty("dao.test.update.movie2.id");
-        String title = getTestProperty("dao.test.update.movie2.title");
-        Float rating = Float.parseFloat(getTestProperty("dao.test.update.movie2.rating"));
+        String idKey = "dao.test.update.movie2.id";
+        String titleKey = "dao.test.update.movie2.title";
+        String ratingKey = "dao.test.update.movie2.rating";
         
-        MovieEntity movieEntity2 = newMovieEntity(id, title, rating);
+        MovieEntity movieEntity2 = getMovieFromTestConfig(this, idKey, titleKey, ratingKey);
         Integer movieId = movieDAO.insertMovie(movieEntity2);
         MovieEntity movieFromDb = movieDAO.getMovieById(movieId);
         // Before the update, check rating and favourite flag
-        assertEquals(rating, movieFromDb.getRating());
+        assertEquals(new Float(getTestProperty(ratingKey)), movieFromDb.getRating());
         assertFalse(movieFromDb.getFavourite());
         
         // New rating to set
@@ -113,11 +109,11 @@ public class MovieDAOTest extends BaseDAOModuleTest
     public void deleteMovieTest003() throws Exception
     {
         // New Movie entity
-        String id = getTestProperty("dao.test.delete.movie3.id");
-        String title = getTestProperty("dao.test.delete.movie3.title");
-        Float rating = Float.parseFloat(getTestProperty("dao.test.delete.movie3.rating"));
+        String idKey = "dao.test.delete.movie3.id";
+        String titleKey = "dao.test.delete.movie3.title";
+        String ratingKey = "dao.test.delete.movie3.rating";
         
-        MovieEntity movieEntity3 = newMovieEntity(id, title, rating);
+        MovieEntity movieEntity3 = getMovieFromTestConfig(this, idKey, titleKey, ratingKey);
         Integer movieId = movieDAO.insertMovie(movieEntity3);
         MovieEntity movieFromDb = movieDAO.getMovieById(movieId);
         // Before the delete, check if object already exist
@@ -142,17 +138,30 @@ public class MovieDAOTest extends BaseDAOModuleTest
     @Transactional
     @Rollback(true)
     public void getMovieByIdTest004() throws Exception
-    {
-        // New Movie entity
-        String id = getTestProperty("dao.test.insert.movie1.id");
-        String title = getTestProperty("dao.test.insert.movie1.title");
-        Float rating = Float.parseFloat(getTestProperty("dao.test.insert.movie1.rating"));
-        
-        MovieEntity movieEntity = newMovieEntity(id, title, rating);
+    {        
+        MovieEntity movieEntity = getDaoTestMovie1();
         Integer movieId = movieDAO.insertMovie(movieEntity);
         MovieEntity movieFromDb = movieDAO.getMovieById(movieId);
         // Check title
-        assertEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), title, movieFromDb.getTitle());
+        assertEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), movieEntity.getTitle(), movieFromDb.getTitle());
+        movieDAO.deleteMovie(movieId);
+    }
+    
+    /**
+     * Test the {@link MovieDAO#getMovieByTitle(String)} method.
+     * 
+     * @throws Exception in case of any failure
+     */
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void getMovieByTitleTest005() throws Exception
+    {
+        MovieEntity movieEntity = getDaoTestMovie1();
+        Integer movieId = movieDAO.insertMovie(movieEntity);
+        MovieEntity movieFromDb = movieDAO.getMovieByTitle(movieEntity.getTitle());
+        // Check title
+        assertEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), movieEntity.getTitle(), movieFromDb.getTitle());
         movieDAO.deleteMovie(movieId);
     }
     
@@ -164,23 +173,20 @@ public class MovieDAOTest extends BaseDAOModuleTest
     @Test
     @Transactional
     @Rollback(true)
-    public void getAllMoviesTest005() throws Exception
+    public void getAllMoviesTest006() throws Exception
     {
         // New Movie entities
-        String id = getTestProperty("dao.test.insert.movie1.id");
-        String title = getTestProperty("dao.test.insert.movie1.title");
-        Float rating = Float.parseFloat(getTestProperty("dao.test.insert.movie1.rating"));
-        MovieEntity movieEntity1 = newMovieEntity(id, title, rating);
+        MovieEntity movieEntity1 = getDaoTestMovie1();
         
-        id = getTestProperty("dao.test.update.movie2.id");
-        title = getTestProperty("dao.test.update.movie2.title");
-        rating = Float.parseFloat(getTestProperty("dao.test.update.movie2.rating"));
-        MovieEntity movieEntity2 = newMovieEntity(id, title, rating);
+        String idKey = "dao.test.update.movie2.id";
+        String titleKey = "dao.test.update.movie2.title";
+        String rating = "dao.test.update.movie2.rating";
+        MovieEntity movieEntity2 = getMovieFromTestConfig(this, idKey, titleKey, rating);
         
-        id = getTestProperty("dao.test.delete.movie3.id");
-        title = getTestProperty("dao.test.delete.movie3.title");
-        rating = Float.parseFloat(getTestProperty("dao.test.delete.movie3.rating"));
-        MovieEntity movieEntity3 = newMovieEntity(id, title, rating);
+        idKey = "dao.test.delete.movie3.id";
+        titleKey = "dao.test.delete.movie3.title";
+        rating = "dao.test.delete.movie3.rating";
+        MovieEntity movieEntity3 = getMovieFromTestConfig(this, idKey, titleKey, rating);
         
         movieDAO.insertMovie(movieEntity1);
         movieDAO.insertMovie(movieEntity2);
@@ -190,6 +196,21 @@ public class MovieDAOTest extends BaseDAOModuleTest
         List<MovieEntity> moviesList = movieDAO.getAllMovies();
         // Check result count
         assertEquals(3, moviesList.size());
+    }
+    
+    /**
+     *  Common subrutine for getting the <code>dao.test.insert.movie1</code> from the configuration file.
+     *  
+     * @return The movie <code>dao.test.insert.movie1</code>
+     * 
+     * @throws TestConfigException in case of any configuration issue
+     */
+    private MovieEntity getDaoTestMovie1() throws TestConfigException
+    {
+        String idKey = "dao.test.insert.movie1.id";
+        String titleKey = "dao.test.insert.movie1.title";
+        String ratingKey = "dao.test.insert.movie1.rating";
+        return getMovieFromTestConfig(this, idKey, titleKey, ratingKey);
     }    
 }
 

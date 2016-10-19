@@ -1,17 +1,23 @@
 package ie.brandtone.moviescomparator.wsclient.test;
 
-import static ie.brandtone.moviescomparator.utils.Commons.getMatchingValuesErrorMsg;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.MOVIE_TITLE_LITERAL_KEY;
+import static ie.brandtone.moviescomparator.utils.Commons.getMatchingValuesErrorMsg;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import ie.brandtone.moviescomparator.dao.Movie;
+import ie.brandtone.moviescomparator.dao.entity.MovieEntity;
 import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
 import ie.brandtone.moviescomparator.utils.BaseMoviesComparatorTest;
-import ie.brandtone.moviescomparator.wsclient.exception.MovieNotFoundException;
 import ie.brandtone.moviescomparator.wsclient.MovieRetrieverService;
+import ie.brandtone.moviescomparator.wsclient.exception.MovieNotFoundException;
 import ie.brandtone.moviescomparator.wsclient.exception.WsClientException;
 import ie.brandtone.moviescomparator.wsclient.impl.OMDbApiRestClient;
 
@@ -20,6 +26,9 @@ import ie.brandtone.moviescomparator.wsclient.impl.OMDbApiRestClient;
  * 
  * @author Marco Pala
  */
+@ContextConfiguration(locations = "classpath:wsclient-test-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class})
 public class MovieRetrieverServiceTest extends BaseMoviesComparatorTest
 {
     /**
@@ -27,6 +36,12 @@ public class MovieRetrieverServiceTest extends BaseMoviesComparatorTest
      */
     private static final String WSCLIENT_TEST_CONFIG_FILENAME = "wsclient.test.properties";
 
+    /**
+     * The {@link MovieRetrieverService} instance.
+     */
+    @Autowired
+    private MovieRetrieverService movieRetriever;
+    
     /**
      * Test the {@link MovieRetrieverService#getMovieByTitle(String)} method with a matching title.
      * 
@@ -37,7 +52,8 @@ public class MovieRetrieverServiceTest extends BaseMoviesComparatorTest
     {
         String movieFoundTitle = getTestProperty("wsclient.test.movieFound");
 
-        Movie movie = getMovieByTitleCommonTest(movieFoundTitle);
+        MovieEntity movie = movieRetriever.getMovieByTitle(movieFoundTitle);
+        assertNotNull(movie);
         assertEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), movieFoundTitle, movie.getTitle());
     }
 
@@ -50,7 +66,7 @@ public class MovieRetrieverServiceTest extends BaseMoviesComparatorTest
     public void getMovieByTitleTest002() throws Exception
     {
         String unmatchingTitle = getTestProperty("wsclient.test.unmatchingTitle");
-        getMovieByTitleCommonTest(unmatchingTitle);
+        movieRetriever.getMovieByTitle(unmatchingTitle);
     }
 
     /**
@@ -75,22 +91,5 @@ public class MovieRetrieverServiceTest extends BaseMoviesComparatorTest
     {
         setConfigFilename(WSCLIENT_TEST_CONFIG_FILENAME);
     }
-
-    /**
-     * Utility method common to most of these test cases (OMDbApi client request and basic not-null assertion).
-     * 
-     * @param testTitle The test title to retrieve
-     * 
-     * @return The movie object matching the title
-     * @throws Exception in case of any failure ({@link WsClientException} | {@link BadMovieFormatException} | {@link MovieNotFoundException})
-     */
-    private Movie getMovieByTitleCommonTest(String testTitle) throws Exception
-    {
-        Movie movie = null;
-        MovieRetrieverService mrs = OMDbApiRestClient.getInstance();
-        movie = mrs.getMovieByTitle(testTitle);
-        assertNotNull(movie);
-
-        return movie;
-    }
+    
 }

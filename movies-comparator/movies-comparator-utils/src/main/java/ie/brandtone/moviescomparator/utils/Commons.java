@@ -34,6 +34,36 @@ public final class Commons
     public static final String ALPHANUMERICAL_PATTERN = "[a-zA-Z0-9 ]+";
     
     /**
+     * The HTML literal for line break.
+     */
+    public static final String BR = "<br>";    
+    
+    /**
+     * The generic JSON ID key.
+     */
+    public static final String ID_KEY = "ID";
+    
+    /**
+     * The generic JSON title key.
+     */
+    public static final String TITLE_KEY = "Title";
+
+    /**
+     * The generic JSON rating key.
+     */
+    public static final String RATING_KEY = "Rating";
+
+    /**
+     * The generic JSON favourite key.
+     */
+    public static final String FAVOURITE_KEY = "Favourite";  
+
+    /**
+     * The generic JSON favourite key.
+     */
+    public static final String CHANGED_KEY = "Changed";
+    
+    /**
      * Initialize the {@link ResourceBundle} for messaging purposes.
      */
     private static final ResourceBundle MESSAGES_BUNDLE = ResourceBundle.getBundle(MESSAGES_BUNDLE_NAME, new Locale("en", "IE"));

@@ -13,6 +13,8 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+import ie.brandtone.moviescomparator.utils.exceptions.ConfigException;
+
 /**
  * Base class for reading configuration files.
  * 
@@ -38,7 +40,7 @@ public abstract class AbstractConfigReader
     private static final Logger LOGGER = Logger.getLogger(AbstractConfigReader.class);
     
     /**
-     * Mandatory method to implement to initialize the configuration file (see {@link AbstractConfigReader#loadProperties(Properties, Class, String)}).
+     * Mandatory method to implement to initialize the configuration file (see {@link AbstractConfigReader#loadProperties(Class, String)}).
      * 
      * @throws ConfigException in case of any initialization issues.
      * 
@@ -62,7 +64,7 @@ public abstract class AbstractConfigReader
      * 
      * @throws ConfigException in case of any problem during properties reading
      */
-    protected String getProperty(String key) throws ConfigException
+    public String getProperty(String key) throws ConfigException
     {
         // Initialize only once
         if (configFile == null)

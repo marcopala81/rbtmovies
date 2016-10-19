@@ -7,6 +7,9 @@ import static ie.brandtone.moviescomparator.utils.Commons.getEnteringMessage;
 import static ie.brandtone.moviescomparator.utils.Commons.getExitingMessage;
 import static ie.brandtone.moviescomparator.utils.Commons.getLeavingMessage;
 import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
+import static ie.brandtone.moviescomparator.utils.Commons.ID_KEY;
+import static ie.brandtone.moviescomparator.utils.Commons.RATING_KEY;
+import static ie.brandtone.moviescomparator.utils.Commons.TITLE_KEY;
 
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -14,7 +17,8 @@ import org.json.JSONObject;
 
 import ie.brandtone.moviescomparator.dao.entity.MovieEntity;
 import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
-import ie.brandtone.moviescomparator.dao.impl.MovieImpl;
+import ie.brandtone.moviescomparator.utils.BaseMoviesComparatorTest;
+import ie.brandtone.moviescomparator.utils.exceptions.TestConfigException;
 
 /**
  * Creates general purpose {@link Movie} objects (adhere to the <i>AbstractFactory</i> pattern).
@@ -26,122 +30,50 @@ import ie.brandtone.moviescomparator.dao.impl.MovieImpl;
 public abstract class AbstractMovieFactory
 {
     /**
-     * The generic JSON ID key.
-     */
-    public static final String ID_KEY = "ID";
-    
-    /**
-     * The generic JSON title key.
-     */
-    public static final String TITLE_KEY = "Title";
-
-    /**
-     * The generic JSON rating key.
-     */
-    public static final String RATING_KEY = "Rating";
-
-    /**
-     * The generic JSON favourite key.
-     */
-    public static final String FAVOURITE_KEY = "Favourite";  
-    
-    /**
      * The Apache Log4j logger.
      */
     private static final Logger LOGGER = Logger.getLogger(AbstractMovieFactory.class);
     
     /**
-     * Creates a {@link Movie} with the default attributes.
-     * 
-     * @return The Movie object with the default attributes
-     * 
-     * @since v1.0.0
-     */
-    public static Movie defaultMovie()
-    {
-        Movie movie = (Movie) new MovieImpl();
-        LOGGER.debug(getMessageFromBundle(MOVIE_OBJECT_MSG_KEY, movie.toString()));
-        
-        return movie;
-    }
-    
-    /**
-     * Creates a {@link Movie} object with the movie's attributes.
-     * 
-     * @param id The movie ID
-     * @param title The movie title
-     * @param rating The movie rating
-     * 
-     * @return A new Movie object with filled attributes
-     * @since v1.0.0
-     */
-    public static Movie newMovie(String id, String title, float rating)
-    {
-        Movie movie = (Movie) new MovieImpl(id, title, rating);
-        LOGGER.debug(getMessageFromBundle(MOVIE_OBJECT_MSG_KEY, movie.toString()));
-        
-        return movie;
-    }
-    
-    /**
      * Creates a {@link MovieEntity} object with the movie's attributes.
      * 
-     * @param id The movie ID
+     * @param imdbId The movie imdbId
      * @param title The movie title
      * @param rating The movie rating
      * 
      * @return A new MovieEntity object with filled attributes
      * @since v1.0.0
      */
-    public static MovieEntity newMovieEntity(String id, String title, float rating)
+    public static MovieEntity newMovieEntity(String imdbId, String title, String rating)
     {
-        MovieEntity movieEntity = new MovieEntity(id, title, rating);
-        LOGGER.debug(getMessageFromBundle(MOVIE_OBJECT_MSG_KEY, movieEntity.toString()));
+        MovieEntity movie = new MovieEntity(imdbId, title, Float.parseFloat(rating));
+        LOGGER.debug(getMessageFromBundle(MOVIE_OBJECT_MSG_KEY, movie.toString()));
         
-        return movieEntity;
-    }
-    
-    /**
-     * Creates a {@link MovieEntity} object from a {@link Movie} object (by copying fields).
-     * 
-     * @param movie The Movie to copy
-     * 
-     * @return A new MovieEntity object equivalent to the Movie object
-     * 
-     * @since v1.0.0
-     */
-    public static MovieEntity getMovieEntityFromMovie(Movie movie)
-    {
-        MovieEntity movieEntity = newMovieEntity(movie.getId(), movie.getTitle(), movie.getRating());
-        LOGGER.debug(getMessageFromBundle(MOVIE_OBJECT_MSG_KEY, movieEntity.toString()));
+        return movie;
+    }  
         
-        return movieEntity;
-    }    
-    
     /**
-     * Creates a {@link Movie} object starting from its {@link JSONObject} representation.
+     * Creates a {@link MovieEntity} object starting from its {@link JSONObject} representation.
      * 
      * @param jsonMovie The JSONObject representation for the movie to create
      * 
-     * @return The Movie object converted from its JSONObject representation 
+     * @return The MovieEntity object converted from its JSONObject representation 
      * 
      * @throws BadMovieFormatException in case of a bad JSONObject input format or conversion issues
      * 
      * @since v1.0.0
      */
-    public static Movie getMovieFromJson(JSONObject jsonMovie) throws BadMovieFormatException
+    public static MovieEntity getMovieFromJson(JSONObject jsonMovie) throws BadMovieFormatException
     {
         String methodName = "getMovieFromJson(JSONObject)";
         LOGGER.info(getEnteringMessage(methodName));
 
-        Movie movie = null;
+        MovieEntity movie = null;
         try
         {
             LOGGER.info(getMessageFromBundle(SIMPLE_JSON_TO_MOVIE_CONVERSION_MSG_KEY));
             // Get relevant movie's properties
-            movie = newMovie(jsonMovie.getString(ID_KEY),
-                                jsonMovie.getString(TITLE_KEY),
-                                    Float.parseFloat(jsonMovie.getString(RATING_KEY)));
+            movie = newMovieEntity(jsonMovie.getString(ID_KEY), jsonMovie.getString(TITLE_KEY), jsonMovie.getString(RATING_KEY));
         }
         catch (JSONException | NumberFormatException e)
         {
@@ -157,27 +89,29 @@ public abstract class AbstractMovieFactory
     }
     
     /**
-     * Creates a {@link Movie} object starting from its JSON {@link String} representation.
+     * Creates a {@link MovieEntity} object starting from its JSON {@link String} representation.
      * 
      * @param jsonStringMovie The JSON String representation for the movie to create
      * 
-     * @return The Movie object converted from its String representation 
+     * @return The MovieEntity object converted from its String representation 
      * 
      * @throws BadMovieFormatException in case of a bad input format or conversion issues
      * 
      * @since v1.0.0
      */
-    public static Movie getMovieFromJson(String jsonStringMovie) throws BadMovieFormatException
+    public static MovieEntity getMovieFromJson(String jsonStringMovie) throws BadMovieFormatException
     {
         String methodName = "getMovieFromJson(String)";
         LOGGER.info(getEnteringMessage(methodName));
 
         // Convert the JSON String representation of the movie to a JSON java object
+        MovieEntity movie = null;
         JSONObject jsonMovie = null;
         
         try
         {
             jsonMovie = new JSONObject(jsonStringMovie);
+            movie = getMovieFromJson(jsonMovie);
         }
         catch (JSONException je)
         {
@@ -188,6 +122,30 @@ public abstract class AbstractMovieFactory
         }
         
         LOGGER.info(getExitingMessage(methodName));
-        return getMovieFromJson(jsonMovie);
+        return movie;
+    }
+    
+    /**
+     * Creates a {@link MovieEntity} object starting from its attributes in a test configuration file.
+     * 
+     * @param testReader The reader for the given test
+     * @param imdbIdKey The key to retrieve the movie imdbId
+     * @param titleKey The key to retrieve the movie title
+     * @param ratingKey The key to retrieve the movie rating
+     * 
+     * @return A new MovieEntity object with filled attributes
+     * 
+     * @throws TestConfigException in case of any configuration issue for the test reader
+     * 
+     * @since v1.0.0
+     */
+    public static MovieEntity getMovieFromTestConfig(BaseMoviesComparatorTest testReader, String imdbIdKey, String titleKey, String ratingKey) throws TestConfigException
+    {
+        String imdbId = testReader.getTestProperty(imdbIdKey);
+        String title = testReader.getTestProperty(titleKey);
+        String rating = testReader.getTestProperty(ratingKey);
+                
+        MovieEntity movie = newMovieEntity(imdbId, title, rating);        
+        return movie;
     }    
 }

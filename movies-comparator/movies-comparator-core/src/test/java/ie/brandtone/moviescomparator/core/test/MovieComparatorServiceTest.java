@@ -9,7 +9,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 import ie.brandtone.moviescomparator.core.MovieComparatorService;
-import ie.brandtone.moviescomparator.dao.Movie;
+import ie.brandtone.moviescomparator.dao.entity.MovieEntity;
 
 /**
  * Class test for the {@link MovieComparatorService} interface.
@@ -19,7 +19,7 @@ import ie.brandtone.moviescomparator.dao.Movie;
 public class MovieComparatorServiceTest extends BaseCoreModuleTest
 {    
     /**
-     * Test the {@link MovieComparatorService#compareMoviesByRating(String, String)} method with two known titles (the first one is better).
+     * Test the {@link MovieComparatorService#compareMoviesByRating(MovieEntity, MovieEntity)} method with two known titles (the first one is better).
      * 
      * @throws Exception in case of any failure
      */
@@ -29,12 +29,15 @@ public class MovieComparatorServiceTest extends BaseCoreModuleTest
         String betterMovieTitle = getTestProperty("core.test.betterMovie001");
         String worseMovieTitle = getTestProperty("core.test.worseMovie001");
 
-        Movie bestOne = movieComparator.compareMoviesByRating(betterMovieTitle, worseMovieTitle);
+        MovieEntity betterMovie = movieRetriever.getMovieByTitle(betterMovieTitle);
+        MovieEntity worseMovie = movieRetriever.getMovieByTitle(worseMovieTitle);
+        
+        MovieEntity bestOne = movieComparator.compareMoviesByRating(betterMovie, worseMovie);
         assertEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), betterMovieTitle, bestOne.getTitle());
     }
 
     /**
-     * Test the {@link MovieComparatorService#compareMoviesByRating(String, String)} method with two known titles (the second one is better).
+     * Test the {@link MovieComparatorService#compareMoviesByRating(MovieEntity, MovieEntity)} method with two known titles (the second one is better).
      * 
      * @throws Exception in case of any failure
      */
@@ -44,36 +47,40 @@ public class MovieComparatorServiceTest extends BaseCoreModuleTest
         String worseMovieTitle = getTestProperty("core.test.worseMovie002");
         String betterMovieTitle = getTestProperty("core.test.betterMovie002");
 
-        Movie bestOne = movieComparator.compareMoviesByRating(worseMovieTitle, betterMovieTitle);
+        MovieEntity worseMovie = movieRetriever.getMovieByTitle(worseMovieTitle);
+        MovieEntity betterMovie = movieRetriever.getMovieByTitle(betterMovieTitle);
+        
+        MovieEntity bestOne = movieComparator.compareMoviesByRating(worseMovie, betterMovie);
         assertEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), betterMovieTitle, bestOne.getTitle());
     }
 
     /**
-     * Test the {@link MovieComparatorService#compareMoviesByRating(String, String)} method checking the same rating scenario (<code>null</code> expected).
+     * Test the {@link MovieComparatorService#compareMoviesByRating(MovieEntity, MovieEntity)} method checking the same rating scenario (<code>null</code> expected).
      * 
      * @throws Exception in case of any failure
      */
     @Test
     public void compareMovieTitlesByRatingTest003() throws Exception
     {
-        String sameRatingMovie = getTestProperty("core.test.sameRatingMovie003");
+        String sameRatingMovieTitle = getTestProperty("core.test.sameRatingMovie003");
 
-        Movie sameOne = movieComparator.compareMoviesByRating(sameRatingMovie, sameRatingMovie);
+        MovieEntity sameRatingMovie = movieRetriever.getMovieByTitle(sameRatingMovieTitle);
+        MovieEntity sameOne = movieComparator.compareMoviesByRating(sameRatingMovie, sameRatingMovie);
         assertNull(sameOne);
     }
 
     /**
-     * Test the {@link MovieComparatorService#compareMoviesByRating(Movie, Movie)} method with two known movies (the first one is better).
+     * Test the {@link MovieComparatorService#compareMoviesByRating(MovieEntity, MovieEntity)} method with two known movies (the first one is better).
      * 
      * @throws Exception in case of any failure
      */
     @Test
     public void compareMoviesByRatingTest004() throws Exception
     {
-        Movie betterMovie = getMovieFromJson(getTestProperty("core.test.betterMovie004"));
-        Movie worseMovie = getMovieFromJson(getTestProperty("core.test.worseMovie004"));
+        MovieEntity betterMovie = getMovieFromJson(getTestProperty("core.test.betterMovie004"));
+        MovieEntity worseMovie = getMovieFromJson(getTestProperty("core.test.worseMovie004"));
         
-        Movie bestOne = movieComparator.compareMoviesByRating(betterMovie, worseMovie);
+        MovieEntity bestOne = movieComparator.compareMoviesByRating(betterMovie, worseMovie);
         assertEquals(getMatchingValuesErrorMsg(MOVIE_TITLE_LITERAL_KEY), betterMovie.getTitle(), bestOne.getTitle());
     }   
 }

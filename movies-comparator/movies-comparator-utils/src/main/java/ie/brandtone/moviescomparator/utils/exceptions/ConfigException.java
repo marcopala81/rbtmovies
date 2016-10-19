@@ -1,8 +1,11 @@
-package ie.brandtone.moviescomparator.utils;
+package ie.brandtone.moviescomparator.utils.exceptions;
 
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.DEFAULT_CONFIG_READER_ERROR_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
 import static ie.brandtone.moviescomparator.utils.Commons.isNullString;
+
+import ie.brandtone.moviescomparator.utils.AbstractConfigReader;
+import ie.brandtone.moviescomparator.utils.BundleKeyConstants;
 
 /**
  * Used for reporting an exception related to the {@link AbstractConfigReader}.

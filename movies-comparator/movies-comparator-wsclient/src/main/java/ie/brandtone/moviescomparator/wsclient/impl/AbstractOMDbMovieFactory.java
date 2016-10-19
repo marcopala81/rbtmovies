@@ -15,12 +15,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ie.brandtone.moviescomparator.dao.AbstractMovieFactory;
-import ie.brandtone.moviescomparator.dao.Movie;
+import ie.brandtone.moviescomparator.dao.entity.MovieEntity;
 import ie.brandtone.moviescomparator.dao.exception.BadMovieFormatException;
 import ie.brandtone.moviescomparator.wsclient.exception.WsClientConfigException;
 
 /**
- * Specialize the standard {@link AbstractMovieFactory} to creates {@link Movie} objects based on OMDb API movie's specification
+ * Specialize the standard {@link AbstractMovieFactory} to creates {@link MovieEntity} objects based on OMDb API movie's specification
  * (adhere to the <i>AbstractFactory</i> pattern).
  * 
  * @author Marco Pala
@@ -40,22 +40,22 @@ public abstract class AbstractOMDbMovieFactory extends AbstractMovieFactory
     private static final Logger LOGGER = Logger.getLogger(AbstractOMDbMovieFactory.class);
     
     /**
-     * Creates a {@link Movie} object starting from its OMDb API JSON object representation.
+     * Creates a {@link MovieEntity} object starting from its OMDb API JSON object representation.
      * 
      * @param omdbJsonMovie The OMDb API JSON object representation for the movie to create
      * 
-     * @return The Movie object converted from its OMDb API JSON representation 
+     * @return The MovieEntity object converted from its OMDb API JSON representation 
      * 
      * @throws BadMovieFormatException in case of a bad JSON input format or conversion issues
      * 
      * @since v1.0.0
      */
-    public static Movie getMovieFromOMDbJson(JSONObject omdbJsonMovie) throws BadMovieFormatException
+    public static MovieEntity getMovieFromOMDbJson(JSONObject omdbJsonMovie) throws BadMovieFormatException
     {
-        String methodName = "movieFromJson";
+        String methodName = "getMovieFromOMDbJson(JSONObject)";
         LOGGER.info(getEnteringMessage(methodName));
         
-        Movie movie = null;
+        MovieEntity movie = null;
         String idKey = null;
         String titleKey = null;
         String ratingKey = null;
@@ -69,11 +69,11 @@ public abstract class AbstractOMDbMovieFactory extends AbstractMovieFactory
             ratingKey = config.getOMDbApiProperty(OMDB_RATING_FIELD_KEY);
 
             // Get relevant movie's properties
-            movie = newMovie(omdbJsonMovie.getString(idKey),
-                                omdbJsonMovie.getString(titleKey),
-                                    Float.parseFloat(omdbJsonMovie.getString(ratingKey)));
+            movie = newMovieEntity(omdbJsonMovie.getString(idKey),
+                                   omdbJsonMovie.getString(titleKey),
+                                   omdbJsonMovie.getString(ratingKey));
         }
-        catch (WsClientConfigException | JSONException | NumberFormatException e)
+        catch (WsClientConfigException | JSONException e)
         {
             // In case of any issue on getting movie's properties
             LOGGER.error(e);

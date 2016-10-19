@@ -1,9 +1,12 @@
 package ie.brandtone.moviescomparator.dao.entity;
 
-import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.FAVOURITE_KEY;
-import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.ID_KEY;
-import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.RATING_KEY;
-import static ie.brandtone.moviescomparator.dao.AbstractMovieFactory.TITLE_KEY;
+import static ie.brandtone.moviescomparator.utils.Commons.CHANGED_KEY;
+import static ie.brandtone.moviescomparator.utils.Commons.FAVOURITE_KEY;
+import static ie.brandtone.moviescomparator.utils.Commons.ID_KEY;
+import static ie.brandtone.moviescomparator.utils.Commons.RATING_KEY;
+import static ie.brandtone.moviescomparator.utils.Commons.TITLE_KEY;
+import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.MOVIE_MARKED_AS_FAVOURITE_MSG_KEY;
+import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.MOVIE_SCORE_UPDATED_MSG_KEY;
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.TO_STRING_SIMPLE_JSON_MOVIE_KEY;
 import static ie.brandtone.moviescomparator.utils.Commons.N_A;
 import static ie.brandtone.moviescomparator.utils.Commons.getMessageFromBundle;
@@ -18,24 +21,35 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
+
+import ie.brandtone.moviescomparator.dao.Movie;
+
 /**
  * Entity representation for the MOVIE DB table with columns annotations and main queries.
  * 
  * @author Marco Pala
+ * 
  */
 @Entity
 @Table(name = "MOVIE")
 @NamedQueries({
     @NamedQuery(name = "FIND_MOVIE_BY_ID", query = "from MovieEntity m where m.id = :id"),
+    @NamedQuery(name = "FIND_MOVIE_BY_TITLE", query = "from MovieEntity m where m.title = :title"),
     @NamedQuery(name = "FIND_ALL_MOVIES", query = "from MovieEntity m")
 })
-public class MovieEntity implements Serializable
-{
+public class MovieEntity implements Movie, Serializable
+{    
     /**
      * Serial version UID.
      */
     private static final long serialVersionUID = -2658642326332077686L;
 
+    /**
+     * The Apache Log4j logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(MovieEntity.class);
+    
     /**
      * The generated ID columm.
      */
@@ -69,14 +83,22 @@ public class MovieEntity implements Serializable
     private Boolean favourite;
 
     /**
+     * The movie changed flag.
+     */
+    @Column(name = "CHANGED")
+    private Boolean changed;
+    
+    /**
      * Default constructor.
      */
     public MovieEntity()
     {
+        this.id = -1;
         this.imdbId = N_A;
         this.title = N_A;
         this.rating = 0.0f;
         this.favourite = false;
+        this.changed = false;
     }
 
     /**
@@ -88,10 +110,12 @@ public class MovieEntity implements Serializable
      */
     public MovieEntity(String id, String title, float rating)
     {
+        this.id = -1;
         this.imdbId = id;
         this.title = title;
         this.rating = rating;
         this.favourite = false;
+        this.changed = false;
     }
 
     /**
@@ -115,19 +139,18 @@ public class MovieEntity implements Serializable
     }
 
     /**
-     * Get the movie ID.
-     *
-     * @return The movie ID
+     * {@inheritDoc}
      */
+    @Override
     public String getImdbId()
     {
         return imdbId;
     }
 
     /**
-     * Set the movie ID.
+     * Set the movie IMDb ID.
      *
-     * @param imdbId The movie ID to set
+     * @param imdbId The movie IMDb ID to set
      */
     public void setImdbId(String imdbId)
     {
@@ -135,10 +158,9 @@ public class MovieEntity implements Serializable
     }
 
     /**
-     * Get the movie title.
-     *
-     * @return The movie title
+     * {@inheritDoc}
      */
+    @Override
     public String getTitle()
     {
         return title;
@@ -155,10 +177,9 @@ public class MovieEntity implements Serializable
     }
 
     /**
-     * Get the movie rating.
-     *
-     * @return The movie rating
+     * {@inheritDoc}
      */
+    @Override
     public Float getRating()
     {
         return rating;
@@ -171,39 +192,62 @@ public class MovieEntity implements Serializable
      */
     public void setRating(Float rating)
     {
+        LOGGER.debug(getMessageFromBundle(MOVIE_SCORE_UPDATED_MSG_KEY,
+                this.getTitle(), String.valueOf(this.getRating()), String.valueOf(rating)));
         this.rating = rating;
     }
 
     /**
-     * Get the movie favourite flag.
-     *
-     * @return The movie favourite flag
+     * {@inheritDoc}
      */
+    @Override
     public Boolean getFavourite()
     {
         return favourite;
     }
 
     /**
-     * Set the movie favourite flag.
-     *
-     * @param favourite The movie favourite flag to set
+     * {@inheritDoc}
      */
+    @Override
     public void setFavourite(Boolean favourite)
     {
         this.favourite = favourite;
+        LOGGER.debug(getMessageFromBundle(MOVIE_MARKED_AS_FAVOURITE_MSG_KEY, this.getTitle()));
     }
 
     /**
-     * {@link String} representation of the {@link MovieEntity}.
-     * 
-     * @return The String representation of the MovieEntity
+     * Get the changed flag (to detect local modifications).
+     *
+     * @return The changed flag
+     */
+    public Boolean getChanged()
+    {
+        return changed;
+    }
+
+    /**
+     * Set the changed flag.
+     *
+     * @param changed The changed flag to set
+     */
+    public void setChanged(Boolean changed)
+    {
+        this.changed = changed;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public String toString()
     {
-        return getMessageFromBundle(TO_STRING_SIMPLE_JSON_MOVIE_KEY, ID_KEY, this.getImdbId(), TITLE_KEY, this.getTitle(), RATING_KEY, String.valueOf(this.getRating()), FAVOURITE_KEY,
-                String.valueOf(this.getFavourite()));
+        return getMessageFromBundle(TO_STRING_SIMPLE_JSON_MOVIE_KEY,
+                                    ID_KEY, this.getImdbId(),
+                                    TITLE_KEY, this.getTitle(),
+                                    RATING_KEY, String.valueOf(this.getRating()),
+                                    FAVOURITE_KEY, String.valueOf(this.getFavourite()),
+                                    CHANGED_KEY, String.valueOf(this.getChanged()));
     }
 
 }

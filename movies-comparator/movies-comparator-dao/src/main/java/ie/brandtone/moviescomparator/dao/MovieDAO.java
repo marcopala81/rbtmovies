@@ -51,6 +51,17 @@ public interface MovieDAO
      * @since v1.0.0
      */    
     MovieEntity getMovieById(Integer movieId);
+
+    /**
+     * Find the given {@link MovieEntity} in the MOVIE table (by the title).
+     * 
+     * @param movieTitle The title of the MovieEntity to find
+     * 
+     * @return The MovieEntity correspondant to the given title (or <code>null</code> if no movie can be found).
+     * 
+     * @since v1.0.0
+     */
+    MovieEntity getMovieByTitle(String movieTitle);
     
     /**
      * Find all the {@link MovieEntity} in the MOVIE table.

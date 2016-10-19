@@ -11,8 +11,7 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
  
     <!-- Web Context -->
-    <context:component-scan base-package="ie.brandtone.moviescomparator.web" />
-    <context:component-scan base-package="ie.brandtone.moviescomparator.dao" />
+    <context:component-scan base-package="ie.brandtone.moviescomparator" />
     
     <mvc:annotation-driven />
     <mvc:default-servlet-handler />
@@ -31,6 +30,9 @@
     </bean>
 
     <bean id="movieDAO" class="ie.brandtone.moviescomparator.dao.impl.MovieDAOImpl" />
+    <bean id="movieRetriever" class="ie.brandtone.moviescomparator.wsclient.impl.OMDbApiRestClient" />
+    <bean id="movieComparator" class="ie.brandtone.moviescomparator.core.impl.MovieComparatorServiceImpl" />
+    <bean id="mvcFacade" class="ie.brandtone.moviescomparator.web.impl.MoviesMvcFacadeImpl" />
                 
     <!-- DB Context -->
     <bean id="jdbcProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:location="classpath:jdbc.properties" />

@@ -35,6 +35,5 @@
 	    <artifactId>hsqldb</artifactId>
 	    <version>${hsqldb.version}</version>
 	</dependency>	
-  </dependencies>
-    
+  </dependencies>    
 </project>

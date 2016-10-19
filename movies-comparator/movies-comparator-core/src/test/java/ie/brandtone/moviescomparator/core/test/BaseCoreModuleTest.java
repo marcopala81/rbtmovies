@@ -1,12 +1,15 @@
 package ie.brandtone.moviescomparator.core.test;
 
-import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import ie.brandtone.moviescomparator.core.MovieComparatorService;
-import ie.brandtone.moviescomparator.core.impl.MovieComparatorServiceImpl;
 import ie.brandtone.moviescomparator.utils.BaseMoviesComparatorTest;
 import ie.brandtone.moviescomparator.wsclient.MovieRetrieverService;
-import ie.brandtone.moviescomparator.wsclient.impl.OMDbApiRestClient;
 
 /**
  * Base abstract class for the Core Module project's test classes.
@@ -15,6 +18,9 @@ import ie.brandtone.moviescomparator.wsclient.impl.OMDbApiRestClient;
  * 
  * @version 1.0.0
  */
+@ContextConfiguration(locations = "classpath:core-test-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class})
 public abstract class BaseCoreModuleTest extends BaseMoviesComparatorTest
 {
     /**
@@ -25,24 +31,14 @@ public abstract class BaseCoreModuleTest extends BaseMoviesComparatorTest
     /**
      * The {@link MovieRetrieverService} <i>Singleton</i> instance.
      */
-    protected static MovieRetrieverService movieRetriever;
+    @Autowired
+    protected MovieRetrieverService movieRetriever;
     
     /**
      * The {@link MovieComparatorService} <i>Singleton</i> instance.
      */
-    protected static MovieComparatorService movieComparator;
-    
-    /**
-     * Set up the functional test class (initialize both {@link MovieRetrieverService} and {@link MovieComparatorService}).
-     * 
-     * @throws Exception in case of any initialization issue.
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception
-    {
-        movieRetriever = OMDbApiRestClient.getInstance();
-        movieComparator = MovieComparatorServiceImpl.getInstance();
-    }
+    @Autowired
+    protected MovieComparatorService movieComparator;
         
     /**
      * {@inheritDoc}

@@ -1,7 +1,7 @@
 package ie.brandtone.moviescomparator.dao;
 
 /**
- * Describes a movie with the relevant getter methods and operations.
+ * Describes a movie with the relevant getter methods and operations (as for the specifications for the Movies Comparator project).
  * 
  * @author Marco Pala
  * 
@@ -10,18 +10,18 @@ package ie.brandtone.moviescomparator.dao;
 public interface Movie
 {    
     /**
-     * Get the movie ID.
+     * Get the movie IMDb ID.
      *
-     * @return The ID field
+     * @return The movie IMDb ID field
      * 
      * @since v1.0.0
      */
-    String getId();
+    String getImdbId();
 
     /**
      * Get the movie title.
      *
-     * @return The title field
+     * @return The movie title field
      * 
      * @since v1.0.0
      */
@@ -30,11 +30,11 @@ public interface Movie
     /**
      * Get the movie rating.
      *
-     * @return The rating field
+     * @return The movie rating field
      * 
      * @since v1.0.0
      */
-    float getRating();
+    Float getRating();
 
     /**
      * Set the movie rating (for modifing local results).
@@ -43,7 +43,7 @@ public interface Movie
      * 
      * @since v1.0.0
      */
-    void setRating(float rating);
+    void setRating(Float rating);
     
     /**
      * Get the movie favourite flag.
@@ -52,14 +52,16 @@ public interface Movie
      * 
      * @since v1.0.0
      */
-    boolean isFavourite();
+    Boolean getFavourite();
     
     /**
-     * Mark the movie as favourite (for pre-cooking results).
+     * Set the movie favourite flag (for pre-cooking results).
+     *
+     * @param favourite The favourite flag to set
      * 
      * @since v1.0.0
      */
-    void markAsFavourite();
+    void setFavourite(Boolean favourite);
     
     /**
      * Format the {@link Movie}'s information as a JSON string for logging purposes.

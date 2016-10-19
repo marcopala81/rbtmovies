@@ -1,4 +1,4 @@
-package ie.brandtone.moviescomparator.utils;
+package ie.brandtone.moviescomparator.utils.exceptions;
 
 import static ie.brandtone.moviescomparator.utils.BundleKeyConstants.TEST_CONFIG_ERROR_MSG_KEY;
 

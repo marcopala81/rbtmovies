@@ -27,6 +27,11 @@
     </dependency>
     <dependency>
       <groupId>ie.brandtone</groupId>
+      <artifactId>movies-comparator-wsclient</artifactId>
+      <version>${project.modules.version}</version>
+    </dependency>    
+    <dependency>
+      <groupId>ie.brandtone</groupId>
       <artifactId>movies-comparator-core</artifactId>
       <version>${project.modules.version}</version>
     </dependency>
@@ -52,9 +57,13 @@
     </dependency>
     <dependency>
         <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-validator</artifactId>
-        <version>${hibernate-validator.version}</version>
-    </dependency>    
+        <artifactId>hibernate-validator</artifactId>       
+    </dependency>
+	<dependency>
+	   <groupId>javax.el</groupId>
+	   <artifactId>javax.el-api</artifactId>
+	   <version>${javax.el-api.version}</version>
+	</dependency>        
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
