@@ -6,13 +6,14 @@
   <parent>
     <groupId>ie.brandtone</groupId>
     <artifactId>movies-comparator</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>movies-comparator-utils</artifactId>
   <packaging>jar</packaging>
   
   <name>${project.name} Utils Module</name>
+  <description>Utility libraries for the application (common resources, general purpose subroutines, internationalization (&lt;i&gt;i18n&lt;/i&gt;) message bundle, Log4J logger configuration).</description>
   
   <!-- For the ie.brandtone.moviescomparator.utils.BaseMoviesComparatorTest to work -->
   <dependencies>

@@ -6,13 +6,14 @@
   <parent>
     <groupId>ie.brandtone</groupId>
     <artifactId>movies-comparator</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
   
   <artifactId>movies-comparator-web</artifactId>
   <packaging>war</packaging>
   
   <name>${project.name} Web Module</name>
+  <description>Web UI to access application features (comparing movies and modify local results).</description>
   
   <dependencies>
     <dependency>

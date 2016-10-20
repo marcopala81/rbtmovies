@@ -1,4 +1,17 @@
-// Check user rating against a regular expression allowing only numbers and dots
+/*
+ * JS library for the Movies Comparator web application
+ * 
+ * Version 1.0.1
+ */
+
+/*
+ * Check user rating against a regular expression allowing only numbers and dots.
+ * 
+ * @param event The key pressed event
+ * @param inputId The focused rating input text-box
+ * 
+ * @since v1.0.0
+ */ 
 function validateRating(event, inputId)
 {
     var rgx = /^[0-9]*\.?[0-9]*$/;
@@ -18,7 +31,13 @@ function validateRating(event, inputId)
     return allowed;
 }
 
-// Check rating on leaving text-box (allowing only values between 0.0 to 10.0)
+/*
+ * Check rating on leaving rating input text-box (allowing only values between 0.0 to 10.0)
+ * 
+ * @param inputId The rating input text-box
+ * 
+ * @since v1.0.0
+ */
 function parseFloatRating(inputId)
 {
     var rating = document.getElementById(inputId);
@@ -45,19 +64,27 @@ function parseFloatRating(inputId)
         submit = true;
         if (inputId == "rating1")
         { 
-          checkOldRatingAndMarkChanged(inputId, rating, "oldRating1", "changedFlag1");
+          checkOldRatingAndMarkChanged(rating, "oldRating1", "changedFlag1");
         }
         else if (inputId == "rating2")
         {
-          checkOldRatingAndMarkChanged(inputId, rating, "oldRating2", "changedFlag2");
+          checkOldRatingAndMarkChanged(rating, "oldRating2", "changedFlag2");
         }
       }
     }
     return submit;
 }
 
-// Update changed flag on new rating
-function checkOldRatingAndMarkChanged(inputId, newRating, idOldRating, idChangedFlag)
+/*
+ * Update changed flag on new ratings
+ * 
+ * @param newRating The rating input text-box
+ * @param idOldRating The old rating hidden input
+ * @param idChangedFlag The changed flag hidden input
+ * 
+ * @since v1.0.0
+ */
+function checkOldRatingAndMarkChanged(newRating, idOldRating, idChangedFlag)
 {
     var changedFlag = document.getElementById(idChangedFlag);
     var oldRating = document.getElementById(idOldRating);
@@ -69,39 +96,37 @@ function checkOldRatingAndMarkChanged(inputId, newRating, idOldRating, idChanged
     {
       changedFlag.value = false;
     }
-    //debugRatingAndChanged(inputId, oldRating.value, newRating.value, changedFlag.value);
+    debugRatingAndChanged(newRating.id, oldRating.value, newRating.value, changedFlag.value);
 }
 
-// Switch favourite checkboxes
+/*
+ * Switch favourite checkboxes
+ * PATCH 1.0.1: Removed markHiddens() function to not modify changed flag on marking favourites
+ * 
+ * @param checkboxId The current favourite checkbox
+ * @param otherCheckboxId The other favourite checkbox
+ * 
+ * @since v1.0.0
+ */
 function switchOther(checkboxId, otherCheckboxId)
 {
     var current = document.getElementById(checkboxId);
     var other = document.getElementById(otherCheckboxId);
     if (current.checked == true)
     {
-      markHiddens(checkboxId);
       other.checked = false;
     }
     
     return true;
 }
 
-function markHiddens(checkboxId)
-{
-    var changed1 = document.getElementById("changedFlag1");
-    var changed2 = document.getElementById("changedFlag2");
-    
-    if (checkboxId == "checkbox1")
-    {
-      changed1.value = true;
-    }
-    else if (checkboxId == "checkbox2")
-    {
-      changed2.value = true;
-    }
-}
-
-// Alert used in the rating validation
+/*
+ * Alert used in the rating validation
+ * 
+ * @param wrong The wrong float value
+ * 
+ * @since v1.0.0
+ */
 function getAlertFloat(wrong)
 {
   alert("Only values between 0.0 and 10.0 are allowed for rating!\n" +
@@ -109,7 +134,16 @@ function getAlertFloat(wrong)
           ">>> Wrong value: [" + wrong + "]");
 }
 
-// Debugging alert
+/*
+ * Debugging alert
+ * 
+ * @param inputId The current rating input text-box id
+ * @param oldRatingVal The old rating value
+ * @param newRatingVal The new rating value
+ * @param changedFlagVal The changed flag value
+ * 
+ * @since v1.0.0
+ */
 function debugRatingAndChanged(inputId, oldRatingVal, newRatingVal, changedFlagVal)
 {
   alert("Input rating ID: " + inputId +

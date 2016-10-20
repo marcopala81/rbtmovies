@@ -82,14 +82,24 @@ public class MoviesMvcFacadeImpl implements MoviesMvcFacade
      * {@inheritDoc}
      */
     @Override
-    public MoviesCompareForm checkForLocalModifications(MoviesCompareForm model)
+    public MoviesCompareForm checkForLocalModifications(MoviesCompareForm model) throws MvcFacadeException
     {
         MovieEntity movie1 = model.getMovie1();
         MovieEntity movie2 = model.getMovie2();
         StringBuilder msg = new StringBuilder();        
         
-        if (movie1.getChanged() || movie2.getChanged())
+        /*
+         *  PATCH 1.0.1 - Solve the issue with the favourite mark
+         *  The goal is to keep a unique favourite movie in the local movies DB
+         *  (favourite and changed flags are handled as different)
+         */
+        if (movie1.getFavourite() || movie2.getFavourite())
         {
+            resetFavourite();
+        }
+        
+        if (movie1.getChanged() || movie2.getChanged())
+        {                
             if (movie1.getChanged())
             {
                 msg.append(getMessageFromBundle(MOVIE_UPDATED_MSG_KEY, movie1.getTitle()));
@@ -115,7 +125,7 @@ public class MoviesMvcFacadeImpl implements MoviesMvcFacade
         
         return model;
     }
-    
+
     /**
      * {@inheritDoc} 
      */    
@@ -211,8 +221,11 @@ public class MoviesMvcFacadeImpl implements MoviesMvcFacade
         try
         {
             MovieEntity movieToUpdate = movieDAO.getMovieByTitle(movie.getTitle());
-                    
-            if (movieToUpdate != null && movie.getChanged())
+            
+            /*
+             *  PATCH 1.0.1 - Favourite and changed flags are handled as different
+             */
+            if (movieToUpdate != null && (movie.getChanged() || movie.getFavourite()))
             {
                 movie.setId(movieToUpdate.getId());
                 movieDAO.updateMovie(movie);
@@ -226,6 +239,25 @@ public class MoviesMvcFacadeImpl implements MoviesMvcFacade
         {
             // TODO LOG DB ERROR
             throw new MvcFacadeException(e);
+        }
+    }
+    
+    /**
+     * Remove the favourite mark from the local movies DB.
+     * 
+     * @throws MvcFacadeException in case of any DB issue
+     * 
+     * @since v1.0.1
+     */
+    private void resetFavourite() throws MvcFacadeException
+    {
+        // For every movie in the local DB...
+        for (MovieEntity movie : getCachedMovies())
+        {
+            // Remove the favourite flag
+            movie.setFavourite(false);
+            // Update movie
+            movieDAO.updateMovie(movie);
         }
     }
 }

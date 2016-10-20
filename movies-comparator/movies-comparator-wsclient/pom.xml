@@ -6,13 +6,14 @@
   <parent>
     <groupId>ie.brandtone</groupId>
     <artifactId>movies-comparator</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
   
   <artifactId>movies-comparator-wsclient</artifactId>
   <packaging>jar</packaging>
   
   <name>${project.name} Webservice Client Module</name>
+  <description>Implements the RESTful client for the &lt;a href=&quot;https://www.omdbapi.com/&quot;&gt;OMDb API&lt;/a&gt; webservice.</description>
   
   <dependencies>
     <dependency>

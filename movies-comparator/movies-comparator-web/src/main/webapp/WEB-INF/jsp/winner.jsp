@@ -32,7 +32,6 @@
                         <form:hidden path="movie1.imdbId" />
                         <form:hidden path="movie1.title" />	                    
 	                    <form:hidden id="oldRating1" path="movie1.rating" />
-	                    <!--<form:hidden id="favourite1" path="movie1.favourite" />-->
 	                    <form:hidden id="changedFlag1" path="movie1.changed" />
 	                </tr>
 	                <tr>
@@ -51,7 +50,6 @@
                         <form:hidden path="movie2.imdbId" />
                         <form:hidden path="movie2.title" />
                         <form:hidden id="oldRating2" path="movie2.rating" />
-                        <!--<form:hidden id="favourite2" path="movie2.favourite" />-->                        
                         <form:hidden id="changedFlag2" path="movie2.changed" />
 	                </tr>
 	                <tr>

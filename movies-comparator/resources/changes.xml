@@ -1,0 +1,39 @@
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+  <properties>
+    <title>Movies Comparator Change Log</title>
+    <author email="marco.pala81@gmail.com">Marco Pala</author>
+  </properties>
+  <body>
+    <release version="1.0.1-SNAPSHOT" date="20-10-2016" description="Patch 1.0.1">
+      <action dev="marcopala81" type="fix" issue="issues/1">
+        Major patch for solving the issue related to the favourite mark in the local movies DB (now favourite mark is unique and only one movie can hold it).
+      </action>
+      <action dev="marcopala81" type="update">
+        Checkstyle and PMD rules added to the project (path updated in the parent POM properties).
+      </action>
+      <action dev="marcopala81" type="update">
+        SCM Github URL updated in the site.
+      </action>
+      <action dev="marcopala81" type="add">
+        Added the ChangeLog features to the project site (see 'maven-changelog-plugin', 'maven-changes-plugin' and the 'changes.xml' file).
+      </action>
+      <action dev="marcopala81" type="add">
+        Added IssueManagement section in the project site (for Github issue tracking).
+      </action>
+      <action dev="marcopala81" type="add">
+        All project's POMs improved with the 'Description' section.
+      </action>
+      <action dev="marcopala81" type="add">
+        Added the picture feature for the developers in the Team section of the project site.
+      </action>      
+    </release>
+
+    <release version="1.0.0-SNAPSHOT" date="19-10-2016" description="Project delivery">
+      <action dev="marcopala81" type="add">
+        First release of the Movies Comparator application (SNAPSHOT).
+      </action>
+    </release>
+  </body>
+</document>

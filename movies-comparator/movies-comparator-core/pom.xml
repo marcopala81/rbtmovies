@@ -6,13 +6,14 @@
   <parent>
     <groupId>ie.brandtone</groupId>
     <artifactId>movies-comparator</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
   
   <artifactId>movies-comparator-core</artifactId>
   <packaging>jar</packaging>
   
   <name>${project.name} Core Module</name>
+  <description>Implements the application Business Logic layer (i.e. the functional requirements).</description>
   
   <dependencies>
     <dependency>

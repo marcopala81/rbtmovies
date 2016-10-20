@@ -4,11 +4,13 @@
   
   <groupId>ie.brandtone</groupId>
   <artifactId>movies-comparator</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <name>${project.name}</name>
   <url>${project.url}</url>
+  <description>Compare scores movies have gained around the internet. The movies information is retrieved from the &lt;a href=&quot;https://www.omdbapi.com/&quot;&gt;OMDb API&lt;/a&gt; webservice.&lt;br&gt;The application is able to:&lt;ol&gt;&lt;li&gt;&lt;b&gt;Search for two movies from a user input&lt;/b&gt; - A user can input movie titles and get a comparison of their scores as a result. The “winner” (a movie with better score) will be highlighted.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Modify local results&lt;/b&gt; - A user can change the score of a movie which will be used to display future requests for that particular movie.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Pre-cook the results&lt;/b&gt; - A user can tag a movie as favourite, so that his favourite movie will always receive the higher score when compared against any other movie.</description>
+  <inceptionYear>2016</inceptionYear>
   
   <modules>
     <module>movies-comparator-utils</module>
@@ -27,16 +29,19 @@
   <properties>
     <!-- General properties -->
     <project.name>${project.company} Movies Comparator</project.name>
-    <project.modules.version>1.0.0-SNAPSHOT</project.modules.version>
+    <project.modules.version>${project.version}</project.modules.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.locale.ie>en_IE</project.locale.ie>
     <project.maven-docs.dir>file:/C:\moviescomparator\doc</project.maven-docs.dir>
     <project.company>Brandtone</project.company>
-    <project.url>http://www.brandtone.ie/</project.url>
-    <project.resources.basedir>C:\moviescomparator</project.resources.basedir>
+    <project.url>http://www.brandtone.ie</project.url>
+    <project.checkout.dir>C:\Programs\git</project.checkout.dir>
+    <project.resources.basedir>${project.checkout.dir}\rbtmovies\movies-comparator\resources</project.resources.basedir>
+    <project.rules.basedir>${project.resources.basedir}\rules</project.rules.basedir>
     <project.git.connector>scm:git:git</project.git.connector>
     <project.git.url>github.com</project.git.url>
-    <project.sde.id>marcopala81</project.sde.id>
+    <project.git.repo>marcopala81/rbtmovies</project.git.repo>
+    <project.git.master>tree/master</project.git.master>
     <!-- Dependency version -->
     <log4j.version>1.2.17</log4j.version>
     <junit.version>4.12</junit.version>
@@ -67,6 +72,8 @@
     <jetty-maven-plugin.version>9.2.19.v20160908</jetty-maven-plugin.version>
     <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
     <!-- Plugin version (Reporting) -->
+    <maven-changelog-plugin.version>2.3</maven-changelog-plugin.version>
+    <maven-changes-plugin.version>2.12</maven-changes-plugin.version>
     <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
     <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
     <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
@@ -85,9 +92,9 @@
     <maven-compiler-plugin.jdk.target>1.7</maven-compiler-plugin.jdk.target>
     <maven-javadoc-plugin.apiviz.version>1.3.2.GA</maven-javadoc-plugin.apiviz.version>
     <!-- Graphviz required for Javadocs doclet (download graphviz-2.38.zip from http://www.graphviz.org/Download_windows.php) -->
-    <maven-javadoc-plugin.graphviz.home>${project.resources.basedir}\graphviz-2.38\release\bin</maven-javadoc-plugin.graphviz.home>
-    <maven-checkstyle-plugin.rules>${project.resources.basedir}\rules\checkstyle-rules.xml</maven-checkstyle-plugin.rules>
-    <maven-pmd-plugin.rules>${project.resources.basedir}\rules\pmd-rules.xml</maven-pmd-plugin.rules>
+    <maven-javadoc-plugin.graphviz.home>C:\moviescomparator\graphviz-2.38\release\bin</maven-javadoc-plugin.graphviz.home>
+    <maven-checkstyle-plugin.rules>${project.rules.basedir}\checkstyle-rules.xml</maven-checkstyle-plugin.rules>
+    <maven-pmd-plugin.rules>${project.rules.basedir}\pmd-rules.xml</maven-pmd-plugin.rules>
     <maven-pmd-plugin.jdk.version>1.7</maven-pmd-plugin.jdk.version>    
     <maven-site-plugin.outputDirectory>${project.build.directory}\site</maven-site-plugin.outputDirectory>
   </properties>
@@ -97,13 +104,19 @@
     <url>${project.url}</url>
   </organization>
   
-  <!-- TODO Software Configuration Management -->
+  <!-- Software Configuration Management -->
   <scm>
-    <url>https://${project.git.url}/${project.sde.id}/${project.artifactId}</url>
-    <connection>${project.git.connector}://${project.git.url}/${project.sde.id}/${project.artifactId}.git</connection>
-    <developerConnection>${project.git.connector}@${project.git.url}:${project.sde.id}/${project.artifactId}.git</developerConnection>
+    <url>https://${project.git.url}/${project.git.repo}/${project.git.master}/${project.artifactId}</url>
+    <connection>${project.git.connector}://${project.git.url}/${project.git.repo}/${project.git.master}/${project.artifactId}.git</connection>
+    <developerConnection>${project.git.connector}@${project.git.url}:${project.git.repo}/${project.git.master}/${project.artifactId}.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
+  
+  <!-- PATCH 1.0.1 - Bugs tracking -->
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://${project.git.url}/${project.git.repo}/issues</url>
+  </issueManagement>
   
   <!-- Fix the Convergence (NOD/NOA) problems with the 'hibernate-core.jar' dependencies (for the Web Module) -->
   <dependencyManagement>
@@ -253,6 +266,32 @@
           </dependencies>          
         </plugin>        
         <!-- Reporting -->
+        <!-- PATCH 1.0.1 Added changelog features (git history and change log file) -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-changelog-plugin</artifactId>
+			<version>${maven-changelog-plugin.version}</version>
+		</plugin>
+		<plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-changes-plugin</artifactId>
+	        <version>${maven-changes-plugin.version}</version>
+	        <configuration>
+	          <xmlPath>${project.resources.basedir}\changes.xml</xmlPath>
+	        </configuration>	        
+	        <executions>
+	          <execution>
+	            <id>validate-changes</id>
+	            <phase>pre-site</phase>
+	            <goals>
+	              <goal>changes-validate</goal>
+	            </goals>
+	            <configuration>
+	              <failOnError>true</failOnError>
+	            </configuration>
+	          </execution>
+	        </executions>	        
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
@@ -350,6 +389,33 @@
   <reporting>
     <outputDirectory>${maven-site-plugin.outputDirectory}</outputDirectory>
     <plugins>
+      <!-- PATCH 1.0.1 Added changelog features (git history and change log file) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changelog-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <id>git-report</id>
+            <reports>
+              <report>changelog</report>
+            </reports>
+          </reportSet>
+        </reportSets>        
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <configuration>
+          <xmlPath>${project.resources.basedir}\changes.xml</xmlPath>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>changes-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -528,13 +594,13 @@
   <distributionManagement>
     <site>
       <id>maven-docs</id>
-      <url>${project.maven-docs.dir}/${project.artifactId}</url>
+      <url>${project.maven-docs.dir}\${project.artifactId}</url>
     </site>
   </distributionManagement>
   
   <developers>
     <developer>
-      <id>${project.sde.id}</id>
+      <id>marcopala81</id>
       <name>Marco Pala</name>
       <email>marco.pala81@gmail.com</email>
       <url>https://it.linkedin.com/in/marco-pala-aa831633/en</url>
@@ -543,6 +609,9 @@
       <roles>
         <role>Senior SDE (JEE)</role>        
       </roles>
+      <properties>
+        <picUrl>file:/${project.resources.basedir}\team-pics\marco-pala-pic.jpg</picUrl>
+      </properties>      
     </developer>
   </developers>
 

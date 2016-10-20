@@ -187,12 +187,13 @@ public class MoviesComparatorController
      */
     @RequestMapping(value = ROOT + UPDATE, method = RequestMethod.POST)
     public String submitMoviesUpdate(MoviesCompareForm moviesCompForm, BindingResult result, ModelMap model)
-    {                
-        // Check for changes
-        moviesCompForm = mvcFacade.checkForLocalModifications(moviesCompForm);
-                
+    {                                
         try
         {
+            // Check for changes
+            // PATCH 1.0.1 checkForLocalModifications now can throw a MvcFacadeException in case of DB issues
+            moviesCompForm = mvcFacade.checkForLocalModifications(moviesCompForm);
+            
             // Persist movies in the DB
             mvcFacade.saveMovies(moviesCompForm);
             // Fill the local movie cache from DB

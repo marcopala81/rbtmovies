@@ -6,13 +6,14 @@
   <parent>
     <groupId>ie.brandtone</groupId>
     <artifactId>movies-comparator</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
   
   <artifactId>movies-comparator-dao</artifactId>
   <packaging>jar</packaging>
   
   <name>${project.name} DAO Module</name>
+  <description>Implements the application Data Access Object layer (manage the local movies database).</description>
   
   <dependencies>
     <dependency>
@@ -36,4 +37,5 @@
 	    <version>${hsqldb.version}</version>
 	</dependency>	
   </dependencies>    
+  
 </project>
