@@ -4,7 +4,7 @@
   
   <groupId>ie.brandtone</groupId>
   <artifactId>movies-comparator</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <name>${project.name}</name>
@@ -35,13 +35,17 @@
     <project.maven-docs.dir>file:/C:\moviescomparator\doc</project.maven-docs.dir>
     <project.company>Brandtone</project.company>
     <project.url>http://www.brandtone.ie</project.url>
-    <project.checkout.dir>C:\Programs\git</project.checkout.dir>
-    <project.resources.basedir>${project.checkout.dir}\rbtmovies\movies-comparator\resources</project.resources.basedir>
+    <!-- PATCH 1.0.2
+        *** IMPORTANT ***
+        Set properly the checkout directory to point to the cloned repo directory
+        The better solution is the 'git clone' option when downloading the project
+      -->
+    <project.checkout.dir>C:\Programs\git\rbtmovies</project.checkout.dir>
+    <project.resources.basedir>${project.checkout.dir}\movies-comparator\resources</project.resources.basedir>
     <project.rules.basedir>${project.resources.basedir}\rules</project.rules.basedir>
     <project.git.connector>scm:git:git</project.git.connector>
     <project.git.url>github.com</project.git.url>
     <project.git.repo>marcopala81/rbtmovies</project.git.repo>
-    <project.git.master>tree/master</project.git.master>
     <!-- Dependency version -->
     <log4j.version>1.2.17</log4j.version>
     <junit.version>4.12</junit.version>
@@ -106,9 +110,9 @@
   
   <!-- Software Configuration Management -->
   <scm>
-    <url>https://${project.git.url}/${project.git.repo}/${project.git.master}/${project.artifactId}</url>
-    <connection>${project.git.connector}://${project.git.url}/${project.git.repo}/${project.git.master}/${project.artifactId}.git</connection>
-    <developerConnection>${project.git.connector}@${project.git.url}:${project.git.repo}/${project.git.master}/${project.artifactId}.git</developerConnection>
+    <url>https://${project.git.url}/${project.git.repo}</url>
+    <connection>${project.git.connector}://${project.git.url}/${project.git.repo}.git</connection>
+    <developerConnection>${project.git.connector}@${project.git.url}:${project.git.repo}.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
   
@@ -267,11 +271,7 @@
         </plugin>        
         <!-- Reporting -->
         <!-- PATCH 1.0.1 Added changelog features (git history and change log file) -->
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-changelog-plugin</artifactId>
-			<version>${maven-changelog-plugin.version}</version>
-		</plugin>
+        <!-- PATCH 1.0.2 Removed git history from default build (moved to profile 'gitlog') -->
 		<plugin>
 	        <groupId>org.apache.maven.plugins</groupId>
 	        <artifactId>maven-changes-plugin</artifactId>
@@ -390,18 +390,6 @@
     <outputDirectory>${maven-site-plugin.outputDirectory}</outputDirectory>
     <plugins>
       <!-- PATCH 1.0.1 Added changelog features (git history and change log file) -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changelog-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <id>git-report</id>
-            <reports>
-              <report>changelog</report>
-            </reports>
-          </reportSet>
-        </reportSets>        
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
@@ -571,6 +559,35 @@
         </plugins>
       </build>     
     </profile>
+    <!-- PATCH 1.0.2 Moved the maven-changelog-plugin to a optional profile (for compatibility). -->
+    <profile>
+      <id>gitlog</id>
+      <build>
+        <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-changelog-plugin</artifactId>
+            <version>${maven-changelog-plugin.version}</version>
+          </plugin>
+        </plugins>
+      </build>
+      <reporting>
+        <plugins>
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-changelog-plugin</artifactId>
+	        <reportSets>
+	          <reportSet>
+	            <id>git-report</id>
+	            <reports>
+	              <report>changelog</report>
+	            </reports>
+	          </reportSet>
+	        </reportSets>        
+	      </plugin>        
+        </plugins>
+      </reporting>     
+    </profile>    
     <profile>
       <!-- Use to generate a JavaSE 8 compliant JAR -->
       <id>jdk18</id>

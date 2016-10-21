@@ -6,6 +6,21 @@
     <author email="marco.pala81@gmail.com">Marco Pala</author>
   </properties>
   <body>
+    <release version="1.0.2-SNAPSHOT" date="21-10-2016" description="Patch 1.0.2">
+      <action dev="marcopala81" type="fix">
+        Fixed Github URL in the SCM section (removed 'tree/master' from the path).
+      </action>
+      <action dev="marcopala81" type="remove" issue="issues/2">
+        Workaround on build compatibility (now 'maven-changelog-plugin' works only on the profile 'gitlog').
+      </action>
+      <action dev="marcopala81" type="remove">
+        Disabled unwanted debugging alert on the rating input-textboxes.
+      </action>      
+      <action dev="marcopala81" type="update">
+        Workaround on build portability: fixed checkout directory URL to point to the cloned repo directory ('git clone' preferred over 'Downloading").
+      </action>
+    </release>
+
     <release version="1.0.1-SNAPSHOT" date="20-10-2016" description="Patch 1.0.1">
       <action dev="marcopala81" type="fix" issue="issues/1">
         Major patch for solving the issue related to the favourite mark in the local movies DB (now favourite mark is unique and only one movie can hold it).

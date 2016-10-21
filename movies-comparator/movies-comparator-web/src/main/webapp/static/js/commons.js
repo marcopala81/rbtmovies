@@ -96,7 +96,7 @@ function checkOldRatingAndMarkChanged(newRating, idOldRating, idChangedFlag)
     {
       changedFlag.value = false;
     }
-    debugRatingAndChanged(newRating.id, oldRating.value, newRating.value, changedFlag.value);
+    //debugRatingAndChanged(newRating.id, oldRating.value, newRating.value, changedFlag.value);
 }
 
 /*
